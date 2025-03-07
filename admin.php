@@ -47,6 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<?php include 'navbar.php'; ?>
+
     <div class="login-container">
         <div class="form-container">
             <h2>Connexion Admin</h2>
@@ -59,5 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </form>
         </div>
     </div>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

@@ -18,6 +18,7 @@ if (empty($cart_items)) {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <?php include 'navbar.php'; ?>
     <h1>Finalisation de l'Achat</h1>
 
     <?php if (!empty($cart_items)) : ?>
@@ -38,5 +39,6 @@ if (empty($cart_items)) {
     <?php else : ?>
         <p>Votre panier est vide.</p>
     <?php endif; ?>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

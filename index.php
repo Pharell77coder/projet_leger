@@ -32,6 +32,7 @@ if (isset($_POST['add_to_cart'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catalogue de Produits</title>
+    <link rel="stylesheet" href="style2.css">
 </head>
 <body>
 
@@ -45,10 +46,15 @@ if (isset($_POST['add_to_cart'])) {
             <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
             
             <video controls>
-                <source src="<?php echo htmlspecialchars($product['video']); ?>" type="video/mp4"><!-- MKV ? --><?php $_COOKIE ?>Votre navigateur ne supporte pas les vidéos.
+                <source src="<?php echo htmlspecialchars($product['video']); ?>" type="video/mp4">
+                <?php $_COOKIE ?>Votre navigateur ne supporte pas les vidéos.
             </video>
 
-            <h2><?php echo htmlspecialchars($product['name']); ?></h2>
+            <h2>
+                <a href="video.php?id=<?php echo htmlspecialchars($product['id']); ?>">
+                    <?php echo htmlspecialchars($product['name']); ?>
+                </a>
+            </h2>
             <p>Prix: <?php echo htmlspecialchars($product['price']); ?>€</p>
 
             <form method="post">

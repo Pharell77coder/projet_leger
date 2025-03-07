@@ -19,8 +19,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
             if(password_verify($password, $user['password'])){
                 $_SESSION['username'] = $user['username'];
-                // echo "<p style='color: green;'>Connexion réussie !</p>";
-                header("Location: accueil.php");
+                header("Location: index.php");
                 exit();
             } else {
                 echo "<p style='color: red;'>Mot de passe incorrect.</p>";
@@ -43,6 +42,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<?php include 'navbar.php'; ?>
     <div class="signup-container">
         <h2>connexion</h2>
         <form action="connexion.php" method="POST">
@@ -57,5 +57,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         
         <p>Pas encore inscrit ? <a href="inscription.php" class="register-link">Inscrivez-vous ici</a></p>
     </div>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

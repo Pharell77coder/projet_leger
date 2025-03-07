@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <?php include 'navbar.php'; ?>
     <div class="signup-container">
         <h2>Inscription</h2>
         <form action="" method="POST" onsubmit="return validateForm()">
@@ -27,20 +28,7 @@
         <p id="#error-msg"></p>
     </div>
 
-    <script>
-        function validateForm(){
-            let password = document.getElementById("password").value;
-            let confirmPassword = document.getElementById("confirm-password").value;
-            let messageError = document.getElementById("#error-msg");
-
-            if (password !== confirmPassword) {
-                messageError.textContent = "Les mots de passe ne correspondent pas.";
-                messageError.style.color = "red";
-                return false;
-            }
-            return true;
-        }
-    </script>
+    <script src="inscription.js"></script>
 
     <?php 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -85,5 +73,6 @@
         $conn = null;
     }
     ?>
+    <?php include 'footer.php'; ?>
 </body>
 </html>
