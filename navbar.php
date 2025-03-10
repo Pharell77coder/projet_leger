@@ -7,7 +7,11 @@
     <!--<link rel="stylesheet" href="navbar.css">-->
 </head>
 <body>
-
+<?php 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
     
     <nav class="navbar">
         <div class="navbar-left">

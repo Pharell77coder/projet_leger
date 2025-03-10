@@ -6,6 +6,34 @@ try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbusername, $dbpassword);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    $priceQueryh  = $pdo->query("SELECT MIN(price) AS min_price, MAX(price) AS maw_price from from products");
+    $priceResult = $priceQuery->fetch(PDO::FETCH_ASSOC);
+    $minPrice = $priceResult['min_price'] ?? 0;
+    $maxPrice = $priceResult['max_price'] ?? 35.00;
+
+    $filters = [];
+    $sql = "SELECT id, name, image, video, price, type FROM products WHERE 1=1";
+
+    $filterConditions = [];
+    if (isset($_GET['filter_php'])) {
+        $filterConditions[] = "type = 'PHP'";
+    }
+    
+    $filterConditions = [];
+    if (isset($_GET['filter_css'])) {
+        $filterConditions[] = "type = 'CSS'";
+    }
+    
+    $filterConditions = [];
+    if (isset($GET['filter'])) {
+        $filterConditions[] = "type = 'PHP'";
+    }
+    
+    $filterConditions = [];
+    if (isset($_GET['filter_php'])) {
+        $filterConditions[] = "type = 'PHP'";
+    }
+
     $stmt = $conn->prepare("SELECT id, name, image, video, price FROM products");
     $stmt->execute(); 
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
