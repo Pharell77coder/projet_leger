@@ -6,42 +6,50 @@ try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbusername, $dbpassword);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $priceQueryh  = $pdo->query("SELECT MIN(price) AS min_price, MAX(price) AS maw_price from from products");
+    $priceQuery  = $conn->query("SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM products");
     $priceResult = $priceQuery->fetch(PDO::FETCH_ASSOC);
     $minPrice = $priceResult['min_price'] ?? 0;
     $maxPrice = $priceResult['max_price'] ?? 35.00;
 
-    $filters = [];
     $sql = "SELECT id, name, image, video, price, type FROM products WHERE 1=1";
-
     $filterConditions = [];
+
     if (isset($_GET['filter_php'])) {
         $filterConditions[] = "type = 'PHP'";
     }
-    
-    $filterConditions = [];
     if (isset($_GET['filter_css'])) {
         $filterConditions[] = "type = 'CSS'";
     }
-    
-    $filterConditions = [];
-    if (isset($GET['filter'])) {
-        $filterConditions[] = "type = 'PHP'";
+    if (isset($_GET['filter_js'])) {
+        $filterConditions[] = "type = 'JS'";
     }
-    
-    $filterConditions = [];
-    if (isset($_GET['filter_php'])) {
-        $filterConditions[] = "type = 'PHP'";
+    if (isset($_GET['filter_mysql'])) {
+        $filterConditions[] = "type = 'MySQL'";
     }
 
-    $stmt = $conn->prepare("SELECT id, name, image, video, price FROM products");
-    $stmt->execute(); 
+    if (!empty($filterConditions)) {
+        $sql .= " AND (" . implode(" OR ", $filterConditions) . ")";
+    }
+
+    if (isset($_GET['price_min']) && isset($_GET['price_max'])) {
+        $min_price = (int) $_GET['price_min'];
+        $max_price = (int) $_GET['price_max'];
+        $sql .= " AND price BETWEEN :min_price AND :max_price";
+    }
+
+    $stmt = $conn->prepare($sql);
+    if (isset($_GET['price_min']) && isset($_GET['price_max'])) {
+        $stmt->bindParam(':min_price', $min_price, PDO::PARAM_INT);
+        $stmt->bindParam(':max_price', $max_price, PDO::PARAM_INT);
+    }
+    $stmt->execute();
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 } catch(PDOException $e) {
-        echo "Erreur : " . $e->getMessage();
-        exit();
+    echo "Erreur : " . $e->getMessage();
+    exit();
 }
+
 
 if (isset($_POST['add_to_cart'])) {
     $product_id = $_POST['product_id'];
@@ -67,6 +75,19 @@ if (isset($_POST['add_to_cart'])) {
 <?php include 'navbar.php'; ?>
 
 <h1>Propositions de cours en PHP</h1>
+
+<form method="get" id="filterForm">
+    <label>
+        <input type="checkbox" name="filter_php" <?php echo isset($_GET['filter_php']) ? 'checked' : ''; ?>>
+        En PHP
+        <input type="checkbox" name="filter_css" <?php echo isset($_GET['filter_css']) ? 'checked' : ''; ?>>
+        En CSS
+        <input type="checkbox" name="filter_js" <?php echo isset($_GET['filter_js']) ? 'checked' : ''; ?>>
+        En JS
+        <input type="checkbox" name="filter_mysql" <?php echo isset($_GET['filter_mysql']) ? 'checked' : ''; ?>>
+        En MySQL
+    </label>
+</form>
 
 <div class="product-list">
     <?php foreach ($products as $product): ?>
