@@ -9,7 +9,7 @@ try {
     $priceQuery  = $conn->query("SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM products");
     $priceResult = $priceQuery->fetch(PDO::FETCH_ASSOC);
     $minPrice = $priceResult['min_price'] ?? 0;
-    $maxPrice = $priceResult['max_price'] ?? 35.00;
+    $maxPrice = $priceResult['max_price'] ?? 50;
 
     $sql = "SELECT id, name, image, video, price, type FROM products WHERE 1=1";
     $filterConditions = [];
@@ -32,8 +32,8 @@ try {
     }
 
     if (isset($_GET['price_min']) && isset($_GET['price_max'])) {
-        $min_price = (int) $_GET['price_min'];
-        $max_price = (int) $_GET['price_max'];
+        $min_price = (float) $_GET['price_min'];
+        $max_price = (float) $_GET['price_max'];        
         $sql .= " AND price BETWEEN :min_price AND :max_price";
     }
 
@@ -58,6 +58,8 @@ if (isset($_POST['add_to_cart'])) {
     }
     $_SESSION['cart'][] = $product_id;
     header("Location: cart.php");
+    exit();
+    
 }
 
 ?>
@@ -87,8 +89,15 @@ if (isset($_POST['add_to_cart'])) {
         <input type="checkbox" name="filter_mysql" <?php echo isset($_GET['filter_mysql']) ? 'checked' : ''; ?>>
         En MySQL
     </label>
+    <div class="price-slider">
+        <input type="range" name="price_min" min="<?php echo $minPrice; ?>" max="<?php echo $maxPrice; ?>" value="<?php echo isset($_GET['price_min']) ? $_GET['price_min'] : $minPrice; ?>" step="1" id="minPrice">
+        <input type="range" name="price_max" min="<?php echo $minPrice; ?>" max="<?php echo $maxPrice; ?>" value="<?php echo isset($_GET['price_max']) ? $_GET['price_max'] : $maxPrice; ?>" step="1" id="maxPrice">
+    </div>
+    <div class="price-values">
+        <span>Prix min: <span id="price-min"><?php echo isset($_GET['price_min']) ? $_GET['price_min'] : $minPrice; ?></span> €</span>
+        <span>Prix max: <span id="price-max"><?php echo isset($_GET['price_max']) ? $_GET['price_max'] : $maxPrice; ?></span> €</span>
+    </div>
 </form>
-
 <div class="product-list">
     <?php foreach ($products as $product): ?>
         <div class="product-item">
@@ -114,6 +123,9 @@ if (isset($_POST['add_to_cart'])) {
     <?php endforeach; ?>
     </div>
     <a href="cart.php">Voir le Panier</a>
+
     <?php include 'footer.php'; ?>
+
+    <script src="index.js"></script>
 </body>
 </html>
