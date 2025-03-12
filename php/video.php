@@ -38,7 +38,7 @@ try {
         <div class="video-details">
             <h1><?= htmlspecialchars($video['name']); ?></h1>
             <video controls>
-                <source src="<?= htmlspecialchars($video['video']); ?>" type="video/mp4">
+                <source src="../<?= htmlspecialchars($video['video']); ?>" type="video/mp4">
                 Votre navigateur ne supporte pas les vidéos.
             </video>
             <p>

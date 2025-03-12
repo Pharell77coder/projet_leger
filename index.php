@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'bdd.php';
+include 'php/bdd.php';
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbusername, $dbpassword);
@@ -70,11 +70,11 @@ if (isset($_POST['add_to_cart'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catalogue de Produits</title>
-    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="css/style2.css">
 </head>
 <body>
 
-<?php include 'navbar.php'; ?>
+<?php include 'php/navbar.php'; ?>
 
 <h1>Propositions de cours en PHP</h1>
 
@@ -103,10 +103,10 @@ if (isset($_POST['add_to_cart'])) {
         <div class="product-item">
             <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
             
-            <video controls>
-                <source src="<?php echo htmlspecialchars($product['video']); ?>" type="video/mp4">
-                <?php $_COOKIE ?>Votre navigateur ne supporte pas les vidéos.
-            </video>
+            <!--<video controls>
+                <source src="<?php //echo htmlspecialchars($product['video']); ?>" type="video/mp4">
+                <?php //$_COOKIE ?>Votre navigateur ne supporte pas les vidéos.
+            </video>-->
 
             <h2>
                 <a href="video.php?id=<?php echo htmlspecialchars($product['id']); ?>">
@@ -124,8 +124,8 @@ if (isset($_POST['add_to_cart'])) {
     </div>
     <a href="cart.php">Voir le Panier</a>
 
-    <?php include 'footer.php'; ?>
+    <?php include 'php/footer.php'; ?>
 
-    <script src="index.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>

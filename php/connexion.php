@@ -19,7 +19,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
             if(password_verify($password, $user['password'])){
                 $_SESSION['username'] = $user['username'];
-                header("Location: index.php");
+                header("Location: ../index.php");
                 exit();
             } else {
                 echo "<p style='color: red;'>Mot de passe incorrect.</p>";

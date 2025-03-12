@@ -33,10 +33,10 @@ if (isset($_GET['query'])) {
         <?php if(!empty($results)): ?>
             <?php foreach ($results as $product): ?>
             <div class="product-item">
-                <img src="<?=htmlspecialchars($product['image']); ?>" alt="<?= htmlspecialchars($product['name']); ?>">
+                <img src="../<?=htmlspecialchars($product['image']); ?>" alt="<?= htmlspecialchars($product['name']); ?>">
             
             <video controls>
-                <source src="<?= htmlspecialchars($product['video']); ?>" type="video/mp4">
+                <source src="../<?= htmlspecialchars($product['video']); ?>" type="video/mp4">
                 <?php $_COOKIE ?>Votre navigateur ne supporte pas les vidéos.
             </video>
 

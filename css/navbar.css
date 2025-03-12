@@ -1,58 +1,116 @@
-.navbar{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 1rem;
+.navbar {
     display: flex;
+    position: fixed;
     justify-content: space-between;
     align-items: center;
-    background-color: grey;
-    padding: 10px 20px;
+    width: 100%;
+    height: 60px;
+    top: 0;
+    left: 0;
+    background-color: #444;
+    padding: 0 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
 
 body {
-    margin-top: 80px;
+    margin-top: 70px;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
 }
 
 .navbar-logo {
-    height: 60px;
-}
-.navbar-right a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 20px;
-    font-family: Arial, sans-serif;
-}
-.navbar-right a:hover{
-    background-color: #555;
-    border-radius: 5px;
+    height: 50px;
+    cursor: pointer;
 }
 
-.cart-link{
-    display: inline-block;
-    padding: 5px;
+.search-bar {
+    display: flex;
+    align-items: center;
 }
 
-.cart-icon {
-    height: 20px;
-    width: 20px;
-    vertical-align: middle;
+.search-bar input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s ease-in-out;
+    width: 200px;
 }
 
-.cart-icon .cart-link{
-    filter: brightness(0.8);
+.search-bar input:focus {
+    border-color: #888;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-.search-button{
-    background: none; 
-    border: none; 
-    padding: 0; 
-    margin-left: 5px;
+.search-button {
+    background: none;
+    border: none;
+    margin-left: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-button:hover {
+    transform: scale(1.1);
 }
 
 .search-icon {
-    width: 20px; 
-    height: 20px;
+    width: 24px;
+    height: 24px;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.navbar-right a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.3s ease-in-out;
+}
+
+.navbar-right a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.cart-link {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    transition: 0.3s ease-in-out;
+}
+
+.cart-link:hover {
+    transform: scale(1.1);
+}
+
+.cart-icon {
+    height: 24px;
+    width: 24px;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px;
+    }
+
+    .search-bar input {
+        width: 150px;
+    }
+
+    .navbar-right {
+        gap: 10px;
+    }
+
+    .navbar-right a {
+        padding: 8px 12px;
+    }
 }

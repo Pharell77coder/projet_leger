@@ -28,7 +28,7 @@
         <p id="#error-msg"></p>
     </div>
 
-    <script src="inscription.js"></script>
+    <script src="js/inscription.js"></script>
 
     <?php 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
