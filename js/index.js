@@ -1,36 +1,44 @@
-const maxSlider = document.getElementById("maxPrice");
-const minSlider = document.getElementById("minPrice");
-const minPriceLabel = document.getElementById("price-min");
-const maxPriceLabel = document.getElementById("price-max");
-const filterForm = document.getElementById("filterForm");
+document.addEventListener("DOMContentLoaded", function () {
+    const maxSlider = document.getElementById("maxPrice");
+    const minSlider = document.getElementById("minPrice");
+    const minPriceLabel = document.getElementById("price-min");
+    const maxPriceLabel = document.getElementById("price-max");
+    const filterForm = document.getElementById("filterForm");
 
-let timeout = null;
+    let timeout = null;
 
-function submitFormWithDelay() {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-        filterForm.submit();
-    }, 500); // Délai de 500ms avant soumission
-}
-
-minSlider.addEventListener("input", function () {
-    if (parseFloat(minSlider.value) > parseFloat(maxSlider.value)) {
-        maxSlider.value = minSlider.value;
+    function submitFormWithDelay() {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            filterForm.submit();
+        }, 500); // Délai de 500ms avant soumission
     }
-    minPriceLabel.textContent = parseFloat(minSlider.value).toFixed(2);
-    submitFormWithDelay();
-});
 
-maxSlider.addEventListener("input", function () {
-    if (parseFloat(maxSlider.value) < parseFloat(minSlider.value)) {
-        minSlider.value = maxSlider.value;
-    }
-    maxPriceLabel.textContent = parseFloat(maxSlider.value).toFixed(2);
-    submitFormWithDelay();
-});
-
-document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-    checkbox.addEventListener("change", function () {
+    minSlider.addEventListener("input", function () {
+        if (parseFloat(minSlider.value) > parseFloat(maxSlider.value)) {
+            maxSlider.value = minSlider.value;
+        }
+        minPriceLabel.textContent = parseFloat(minSlider.value).toFixed(2);
         submitFormWithDelay();
+    });
+
+    maxSlider.addEventListener("input", function () {
+        if (parseFloat(maxSlider.value) < parseFloat(minSlider.value)) {
+            minSlider.value = maxSlider.value;
+        }
+        maxPriceLabel.textContent = parseFloat(maxSlider.value).toFixed(2);
+        submitFormWithDelay();
+    });
+
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener("change", function () {
+            submitFormWithDelay();
+        });
+    });
+
+    // S'assurer que les valeurs des sliders sont bien envoyées dans le formulaire
+    filterForm.addEventListener("submit", function () {
+        document.querySelector('input[name="price_min"]').value = minSlider.value;
+        document.querySelector('input[name="price_max"]').value = maxSlider.value;
     });
 });

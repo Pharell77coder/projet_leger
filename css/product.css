@@ -1,0 +1,88 @@
+.product-list {
+    display: grid;
+    gap: 0.5rem;
+    justify-content: center;
+    grid-template-columns: repeat(4, 1fr); /* Par défaut, 4 colonnes */
+}
+
+@media (max-width: 1200px) {
+    .product-list {
+        grid-template-columns: repeat(3, 1fr); /* 3 colonnes */
+    }
+}
+
+@media (max-width: 900px) {
+    .product-list {
+        grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
+    }
+}
+
+@media (max-width: 600px) {
+    .product-list {
+        grid-template-columns: repeat(1, 1fr); /* 1 colonne */
+    }
+}
+
+
+.product-item {
+    background-color: #fff;
+    border-radius: 0.5rem;    
+    margin: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 240px;
+    height: 290px;
+    flex: 0 0 auto;
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product-item img {
+    width: 100%;
+    height: 150px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    object-fit: cover;
+    transition: transform 1s ease-in-out;
+}
+
+.product-item h2 {
+    font-size: 18px;
+}
+
+.product-item a {
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.product-item a:hover {
+    color: #007BFF;
+}
+
+.product-item p {
+    font-size: 16px;
+}
+
+.product-item form {
+    margin: 1rem;
+}
+
+.product-item button {
+    height: 40px;
+    width: 220px;
+    border: 1px solid #007BFF;
+    background-color: #007BFF;
+    color: #f2f2f2;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+  }
+  
+  .product-item button:hover {
+    background-color: transparent;
+    color: #007BFF;
+  }

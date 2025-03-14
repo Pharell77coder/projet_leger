@@ -1,0 +1,31 @@
+.customer {
+    grid-area: customer;
+    overflow-x: auto;
+}
+
+.customer-wrapper {
+display: grid;
+grid-template-columns: 0.3fr 1fr 0.4fr;
+margin: 10px 0;
+min-width: 230px;
+align-items: flex-start;
+gap: 5px;
+}
+
+.customer-image {
+width: 40px;
+height: 40px;
+border-radius: 50%;
+object-fit: cover;
+}
+
+.customer-name > p, 
+.customer-date {
+font-size: 0.9rem;
+}
+
+.customer-date {
+text-align: right;
+color: #9092a9;
+}
+  

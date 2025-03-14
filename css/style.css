@@ -1,145 +1,89 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+h1, 
+#filterForm, 
+.price-slider, 
+.price-values, 
+.product-list {
+    display: flex;           /* Active le mode flexbox */
+    flex-direction: column;  /* Aligne les éléments verticalement */
+    align-items: center;     /* Centre horizontalement */
+    justify-content: center; /* Centre verticalement si nécessaire */
+    text-align: center;      /* Centre le texte */
+    width: 100%;             /* Optionnel pour forcer l'alignement */
 }
 
-body {
+.product-list {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    justify-content: flex-start;
+    padding: 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.product-item {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 200px;
+    flex: 0 0 auto;
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.product-item img {
+    width: 100%;
+    height: 180px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+
+.product-item h2 {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.product-item a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.product-item a:hover {
+    color: #007BFF;
+}
+
+.product-item p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.product-item form {
+    margin-top: auto;
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: white;
 }
 
-.signup-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 500px;
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: black;
-}
-
-label{
-    margin-top: 10px;
-    display: block;
-    color: #333;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    margin-top: 5px;
-    border: 1px solid white;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-input[type="submit"]{
-    width: 100%;
-    padding: 10px;
-    background-color: #5cb85c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    margin-top: 20px;
-    cursor: pointer;
-    box-sizing: border-box;
-}
-
-input[type="submit"]:hover{
-    background-color: #4cae4c;
-}
-
-#error-msg{
-    color: red;
-    margin-top: 10px;
-    text-align: center;
-}
-
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #f8f8f8;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.logout-btn{
-    background-color: #a80600;
-    color: white;
-    border: none;
-    padding: 10px 15px;
+.product-item button {
+    height: 30px;
+    width: 120px;
+    border: 1px solid #007BFF;
+    background-color: #007BFF;
+    color: #f2f2f2;
     border-radius: 5px;
     cursor: pointer;
-}
-
-.logout-btn:hover{
-    background-color: #a80600;
-}
-
-main {
-    padding: 20px;
-    text-align: center;
-}
-
-button,
-input[type="submit"] {
-    width: 100%;
-    font-size: 16px;
-    padding: 10px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.signup_container{
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.register-link {
-    display: inline-block;
-    margin-top: 15px;
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.register-link:hover {
-    text-decoration: underline;
-}
-
-.register-link2 {
-    display: inline-block;
-    margin-top: 15px;
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.product-item h2 a {
-    color: inherit;
-    text-decoration: none;
-}
-
-.product-item h2 a:hover{
-    color: red;
-}
+    transition: all 0.2s ease-in;
+  }
+  
+  .product-item button:hover {
+    background-color: transparent;
+    color: #007BFF;
+  }

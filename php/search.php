@@ -24,7 +24,8 @@ if (isset($_GET['query'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Résultats de recherche</title>
-    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/product.css">
 </head>
 <body>
    <?php include 'navbar.php' ?> 
@@ -35,10 +36,10 @@ if (isset($_GET['query'])) {
             <div class="product-item">
                 <img src="../<?=htmlspecialchars($product['image']); ?>" alt="<?= htmlspecialchars($product['name']); ?>">
             
-            <video controls>
+            <!--<video controls>
                 <source src="../<?= htmlspecialchars($product['video']); ?>" type="video/mp4">
-                <?php $_COOKIE ?>Votre navigateur ne supporte pas les vidéos.
-            </video>
+                <?php //$_COOKIE ?>Votre navigateur ne supporte pas les vidéos.
+            </video>-->
 
             <h2>
                 <a href="video.php?id=<?= htmlspecialchars($product['id']); ?>">
@@ -47,7 +48,7 @@ if (isset($_GET['query'])) {
             </h2>
             <p>Prix: <?= htmlspecialchars($product['price']); ?>€</p>
 
-            <form method="post">
+            <form method="post" action="add_to_cart.php">
                 <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']); ?>">
                 <button type="submit" name="add_to_cart">Ajouter au Panier</button>
             </form>

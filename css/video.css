@@ -76,3 +76,7 @@ button[name="add_to_cart"]{
 button[name="add_to_cart"]:hover {
     background-color: #45a049;
 }
+
+.container p, a, h1, h2, h3{
+    color: red;
+}

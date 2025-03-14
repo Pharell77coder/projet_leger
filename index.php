@@ -2,99 +2,93 @@
 session_start();
 include 'php/bdd.php';
 
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbusername, $dbpassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+class Database {
+    private static $instance = null;
+    private $conn;
 
-<<<<<<< Updated upstream
-    $priceQuery  = $conn->query("SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM products");
-    $priceResult = $priceQuery->fetch(PDO::FETCH_ASSOC);
-    $minPrice = $priceResult['min_price'] ?? 0;
-    $maxPrice = $priceResult['max_price'] ?? 50;
-
-    $sql = "SELECT id, name, image, video, price, type FROM products WHERE 1=1";
-    $filterConditions = [];
-
-    if (isset($_GET['filter_php'])) {
-        $filterConditions[] = "type = 'PHP'";
-    }
-    if (isset($_GET['filter_css'])) {
-        $filterConditions[] = "type = 'CSS'";
-    }
-    if (isset($_GET['filter_js'])) {
-        $filterConditions[] = "type = 'JS'";
-    }
-    if (isset($_GET['filter_mysql'])) {
-        $filterConditions[] = "type = 'MySQL'";
+    private function __construct() {
+        global $servername, $dbname, $dbusername, $dbpassword;
+        $this->conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbusername, $dbpassword);
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    if (!empty($filterConditions)) {
-        $sql .= " AND (" . implode(" OR ", $filterConditions) . ")";
+    public static function getInstance() {
+        if (self::$instance === null) {
+            self::$instance = new Database();
+        }
+        return self::$instance;
     }
 
-    if (isset($_GET['price_min']) && isset($_GET['price_max'])) {
-        $min_price = (float) $_GET['price_min'];
-        $max_price = (float) $_GET['price_max'];        
-        $sql .= " AND price BETWEEN :min_price AND :max_price";
+    public function getConnection() {
+        return $this->conn;
     }
-
-    $stmt = $conn->prepare($sql);
-    if (isset($_GET['price_min']) && isset($_GET['price_max'])) {
-        $stmt->bindParam(':min_price', $min_price, PDO::PARAM_INT);
-        $stmt->bindParam(':max_price', $max_price, PDO::PARAM_INT);
-    }
-    $stmt->execute();
-=======
-    $priceQueryh  = $pdo->query("SELECT MIN(price) AS min_price, MAX(price) AS maw_price from from products");
-    $priceResult = $priceQuery->fetch(PDO::FETCH_ASSOC);
-    $minPrice = $priceResult['min_price'] ?? 0;
-    $maxPrice = $priceResult['max_price'] ?? 35.00;
-
-    $filters = [];
-    $sql = "SELECT id, name, image, video, price, type FROM products WHERE 1=1";
-
-    $filterConditions = [];
-    if (isset($_GET['filter_php'])) {
-        $filterConditions[] = "type = 'PHP'";
-    }
-    
-    $filterConditions = [];
-    if (isset($_GET['filter_css'])) {
-        $filterConditions[] = "type = 'CSS'";
-    }
-    
-    $filterConditions = [];
-    if (isset($GET['filter'])) {
-        $filterConditions[] = "type = 'PHP'";
-    }
-    
-    $filterConditions = [];
-    if (isset($_GET['filter_php'])) {
-        $filterConditions[] = "type = 'PHP'";
-    }
-
-    $stmt = $conn->prepare("SELECT id, name, image, video, price FROM products");
-    $stmt->execute(); 
->>>>>>> Stashed changes
-    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-} catch(PDOException $e) {
-    echo "Erreur : " . $e->getMessage();
-    exit();
 }
 
+class Product {
+    private $conn;
 
-if (isset($_POST['add_to_cart'])) {
-    $product_id = $_POST['product_id'];
-    if (!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
+    public function __construct() {
+        $this->conn = Database::getInstance()->getConnection();
     }
-    $_SESSION['cart'][] = $product_id;
-    header("Location: cart.php");
-    exit();
-    
+
+    public function getPriceRange() {
+        $query = $this->conn->query("SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM products");
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return [
+            'minPrice' => $result['min_price'] ?? 0,
+            'maxPrice' => $result['max_price'] ?? 5000
+        ];
+    }
+
+    public function getFilteredProducts($filters) {
+        $sql = "SELECT id, name, image, video, price, type FROM products WHERE 1=1";
+        $params = [];
+        
+        if (!empty($filters['types'])) {
+            $sql .= " AND type IN (" . implode(", ", array_fill(0, count($filters['types']), '?')) . ")";
+            $params = array_merge($params, $filters['types']);
+        }
+        
+        if (!empty($filters['price_min']) && !empty($filters['price_max'])) {
+            $sql .= " AND price BETWEEN ? AND ?";
+            $params[] = (float) $filters['price_min'];
+            $params[] = (float) $filters['price_max'];
+        }
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
+class Cart {
+    public static function addToCart($product_id) {
+        $_SESSION['cart'][] = $product_id;
+        header("Location: cart.php");
+        exit();
+    }
+}
+
+$productHandler = new Product();
+$priceRange = $productHandler->getPriceRange();
+
+$filters = [
+    'types' => array_filter([
+        !empty($_GET['filter_Électronique']) ? 'Électronique' : null,
+        !empty($_GET['filter_Mode']) ? 'Mode & Accessoires' : null,
+        !empty($_GET['filter_Maison']) ? 'Maison & Cuisine' : null,
+        !empty($_GET['filter_Beauté']) ? 'Beauté & Santé' : null,
+        !empty($_GET['filter_Sport']) ? 'Sport & Loisirs' : null
+    ]),
+    'price_min' => isset($_GET['price_min']) ? (float) $_GET['price_min'] : $priceRange['minPrice'],
+    'price_max' => isset($_GET['price_max']) ? (float) $_GET['price_max'] : $priceRange['maxPrice']
+];
+
+$products = $productHandler->getFilteredProducts($filters);
+
+if (!empty($_POST['add_to_cart']) && !empty($_POST['product_id'])) {
+    Cart::addToCart($_POST['product_id']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -103,62 +97,49 @@ if (isset($_POST['add_to_cart'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catalogue de Produits</title>
-    <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/product.css">
 </head>
 <body>
-
 <?php include 'php/navbar.php'; ?>
 
 <h1>Propositions de cours en PHP</h1>
 
-<form method="get" id="filterForm">
+<form method="get" id="filterForm" class="filterForm" >
     <label>
-        <input type="checkbox" name="filter_php" <?php echo isset($_GET['filter_php']) ? 'checked' : ''; ?>>
-        En PHP
-        <input type="checkbox" name="filter_css" <?php echo isset($_GET['filter_css']) ? 'checked' : ''; ?>>
-        En CSS
-        <input type="checkbox" name="filter_js" <?php echo isset($_GET['filter_js']) ? 'checked' : ''; ?>>
-        En JS
-        <input type="checkbox" name="filter_mysql" <?php echo isset($_GET['filter_mysql']) ? 'checked' : ''; ?>>
-        En MySQL
+        <input type="checkbox" name="filter_Électronique" <?php echo !empty($_GET['filter_Électronique']) ? 'checked' : ''; ?>> Électronique
+        <input type="checkbox" name="filter_Mode" <?php echo !empty($_GET['filter_Mode']) ? 'checked' : ''; ?>> Mode & Accessoires
+        <input type="checkbox" name="filter_Maison" <?php echo !empty($_GET['filter_Maison']) ? 'checked' : ''; ?>> Maison & Cuisine
+        <input type="checkbox" name="filter_Beauté" <?php echo !empty($_GET['filter_Beauté']) ? 'checked' : ''; ?>> Beauté & Santé
+        <input type="checkbox" name="filter_Sport" <?php echo !empty($_GET['filter_Sport']) ? 'checked' : ''; ?>> Sport & Loisirs
     </label>
     <div class="price-slider">
-        <input type="range" name="price_min" min="<?php echo $minPrice; ?>" max="<?php echo $maxPrice; ?>" value="<?php echo isset($_GET['price_min']) ? $_GET['price_min'] : $minPrice; ?>" step="1" id="minPrice">
-        <input type="range" name="price_max" min="<?php echo $minPrice; ?>" max="<?php echo $maxPrice; ?>" value="<?php echo isset($_GET['price_max']) ? $_GET['price_max'] : $maxPrice; ?>" step="1" id="maxPrice">
+        <input type="range" id="minPrice" name="price_min" min="<?php echo $priceRange['minPrice']; ?>" max="<?php echo $priceRange['maxPrice']; ?>" value="<?php echo $_GET['price_min'] ?? $priceRange['minPrice']; ?>" step="1">
+        <input type="range" id="maxPrice" name="price_max" min="<?php echo $priceRange['minPrice']; ?>" max="<?php echo $priceRange['maxPrice']; ?>" value="<?php echo $_GET['price_max'] ?? $priceRange['maxPrice']; ?>" step="1">
     </div>
+
     <div class="price-values">
-        <span>Prix min: <span id="price-min"><?php echo isset($_GET['price_min']) ? $_GET['price_min'] : $minPrice; ?></span> €</span>
-        <span>Prix max: <span id="price-max"><?php echo isset($_GET['price_max']) ? $_GET['price_max'] : $maxPrice; ?></span> €</span>
+        <span>Prix min: <span id="price-min"><?php echo $_GET['price_min'] ?? $priceRange['minPrice']; ?></span> €</span>
+        <span>Prix max: <span id="price-max"><?php echo $_GET['price_max'] ?? $priceRange['maxPrice']; ?></span> €</span>
     </div>
 </form>
+
 <div class="product-list">
     <?php foreach ($products as $product): ?>
         <div class="product-item">
             <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
-            
-            <!--<video controls>
-                <source src="<?php //echo htmlspecialchars($product['video']); ?>" type="video/mp4">
-                <?php //$_COOKIE ?>Votre navigateur ne supporte pas les vidéos.
-            </video>-->
-
-            <h2>
-                <a href="video.php?id=<?php echo htmlspecialchars($product['id']); ?>">
-                    <?php echo htmlspecialchars($product['name']); ?>
-                </a>
-            </h2>
+            <h2><a href="php/video.php?id=<?php echo htmlspecialchars($product['id']); ?>"> <?php echo htmlspecialchars($product['name']); ?> </a></h2>
             <p>Prix: <?php echo htmlspecialchars($product['price']); ?>€</p>
-
-            <form method="post">
+            <form method="post" action="php/add_to_cart.php">
                 <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($product['id']); ?>">
                 <button type="submit" name="add_to_cart">Ajouter au Panier</button>
             </form>
         </div>
     <?php endforeach; ?>
-    </div>
-    <a href="cart.php">Voir le Panier</a>
+</div>
 
-    <?php include 'php/footer.php'; ?>
-
-    <script src="js/index.js"></script>
+<a href="php/cart.php">Voir le Panier</a>
+<?php include 'php/footer.php'; ?>
+<script src="js/index.js"></script>
 </body>
 </html>

@@ -3,8 +3,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Définition du chemin de base en fonction du dossier du projet
-$base_url = "/projet_leger/";
+if ($_SERVER['HTTP_HOST'] === 'localhost') {
+    $base_url = "/projet_leger/";
+} else {
+    $base_url = "/"; 
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,8 +26,8 @@ $base_url = "/projet_leger/";
         </div>
 
         <div class="search-bar">
-            <form action="<?php echo $base_url; ?>php/search.php" method="get" style="display: flex; align-items: center;">
-                <input type="text" name="query" placeholder="Rechercher une vidéo...." required>
+            <form action="<?php echo $base_url; ?>php/search.php" method="get">
+                <input class="search-bar-input" type="text" name="query" placeholder="Rechercher une vidéo...." required>
                 <button type="submit" class="search-button">
                     <img src="<?php echo $base_url; ?>images/loupe.png" alt="Rechercher" class="search-icon">
                 </button>
