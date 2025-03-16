@@ -1,4 +1,5 @@
 <?php 
+/*
 session_start();
 
 if(!isset($_SESSION['admin'])) {
@@ -17,7 +18,19 @@ try {
 
 } catch (PDOException $e)  {
     echo "Erreur : " . $e->getMessage();
+}*/
+
+session_start();
+require 'classes/Database.php';
+require 'classes/Admin.php';
+
+if (!isset($_SESSION['admin'])) {
+    header("Location: admin.php");
+    exit();
 }
+
+$admin = new Admin();
+$tables = $admin->getTables();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

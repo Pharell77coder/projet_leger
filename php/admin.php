@@ -1,4 +1,5 @@
 <?php
+/*
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -35,6 +36,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Erreur : " . $e->getMessage();
     }
     $conn = null;
+}*/
+session_start();
+require 'classes/Database.php';
+require 'classes/Admin.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = htmlspecialchars(trim($_POST['email']));
+    $password = htmlspecialchars(trim($_POST['password']));
+
+    $admin = new Admin();
+    $error = $admin->login($email, $password);
 }
 
 ?>
@@ -59,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="password" id="password" name="password" required>
                 <input type="submit" value="Se connecter">
             </form>
+            <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?>
         </div>
     </div>
     <?php include 'footer.php'; ?>

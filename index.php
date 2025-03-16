@@ -1,4 +1,5 @@
 <?php
+/*
 session_start();
 include 'php/bdd.php';
 
@@ -88,7 +89,15 @@ $products = $productHandler->getFilteredProducts($filters);
 
 if (!empty($_POST['add_to_cart']) && !empty($_POST['product_id'])) {
     Cart::addToCart($_POST['product_id']);
-}
+}*/
+
+session_start();
+require 'php/classes/Database.php';
+require 'php/classes/Product.php';
+
+$productClass = new Product();
+$products = $productClass->getAllProducts();
+
 ?>
 
 <!DOCTYPE html>
