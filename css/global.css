@@ -21,3 +21,15 @@ h2 {
 h2 > span {
   font-size: 14px;
 }
+
+.btn a{
+  height: 40px;
+  width: 100%;
+  max-width: 220px;
+  border: 1px solid blue;
+  background-color: blue;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+}

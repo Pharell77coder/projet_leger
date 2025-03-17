@@ -8,6 +8,29 @@ if ($_SERVER['HTTP_HOST'] === 'localhost') {
 } else {
     $base_url = "/"; 
 }
+
+include'bdd.php';
+
+$favoris_exist = false;
+
+if (isset($_SESSION['username'])) {
+    try {
+        if (!isset($pdo)) {
+            $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $dbusername, $dbpassword);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
+
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM favoris WHERE user_id = :user_id");
+        $stmt->execute(['user_id' => $_SESSION['username']]);
+        $count = $stmt->fetchColumn();
+
+        if ($count > 0) {
+            $favoris_exist = true;
+        }
+    } catch (PDOException $e) {
+        error_log("Erreur : ". $e->getMessage());
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,6 +59,7 @@ if ($_SERVER['HTTP_HOST'] === 'localhost') {
 
         <div class="navbar-right">
             <?php if (!isset($_SESSION['username'])): ?>
+                <a href="<?php echo $base_url; ?>php/accueil.php">Home</a>
                 <a href="<?php echo $base_url; ?>index.php">Produit</a>
                 <a href="<?php echo $base_url; ?>php/connexion.php" class="cart-link">
                     <img src="<?php echo $base_url; ?>images/connexion.png" alt="Connexion" class="cart-icon" title="Connexion">
@@ -44,7 +68,9 @@ if ($_SERVER['HTTP_HOST'] === 'localhost') {
                     <img src="<?php echo $base_url; ?>images/formulaire.png" alt="Formulaire" class="cart-icon" title="Formulaire">
                 </a>
             <?php else: ?>
+                <a href="<?php echo $base_url; ?>php/accueil.php">Home</a>
                 <a href="<?php echo $base_url; ?>index.php">Produit</a>
+                <a href="<?php echo $base_url; ?>php/favoris.php">Favoris</a>
                 <a href="<?php echo $base_url; ?>php/compte.php" class="cart-link">
                     <img src="<?php echo $base_url; ?>images/utilisateur.png" alt="Utilisateur" class="cart-icon" title="Utilisateur">
                 </a>

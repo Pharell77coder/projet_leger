@@ -60,6 +60,7 @@ if (isset($_POST['remove_item'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panier</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/global.css">
 </head>
 <body>
     <?php include 'navbar.php'; ?>
@@ -117,7 +118,7 @@ if (isset($_POST['remove_item'])) {
             <p>Votre panier est vide.</p>
         <?php endif; ?>
 
-        <a href="../index.php">Retourner au Catalogue</a>
+        <a class="btn" href="../index.php">Retourner au Catalogue</a>
 
         <?php include 'footer.php'; ?>
 </body>

@@ -68,8 +68,7 @@ $products = $productClass->getFilteredProducts($filters);
         </div>
     <?php endforeach; ?>
 </div>
-
-<a href="php/cart.php">Voir le Panier</a>
+<a class="btn" href="php/cart.php">Voir le Panier</a>
 <?php include 'php/footer.php'; ?>
 <script src="js/index.js"></script>
 </body>

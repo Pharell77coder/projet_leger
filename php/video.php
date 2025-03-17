@@ -14,6 +14,15 @@ try {
         if (!$video) { 
             die("Vidéo introuvable");
         }
+        $isFavorite = false;
+        if (isset($_SESSION['username'])) {
+            $user = $_SESSION['username'];
+            $favStmt = $pdo->prepare(
+                "SELECT COUNT(*) FROM favoris WHERE user_id = :user_id AND video_id = :video_id"
+            );
+            $favStmt->execute(['user_id' => $user, 'video_id' => $video_id]);
+            $isFavorite = $favStmt->fetchColumn() > 0;
+        }
     } else {
         die("ID de vidéo non spécifié.");
     }
@@ -37,31 +46,41 @@ try {
 
     <div class="container">
         <div class="video-details">
-            <h1><?= htmlspecialchars($video['name']); ?></h1>
-            <video controls>
-                <source src="../<?= htmlspecialchars($video['video']); ?>" type="video/mp4">
-                Votre navigateur ne supporte pas les vidéos.
-            </video>
-            <p>
-                <strong>Description :</strong> <?= htmlspecialchars($video['description']); ?>
-            </p>
+            <div class="h1-container">
+                <h1><?= htmlspecialchars($video['name']); ?></h1>
+                <?php if (isset($_SESSION['username'])): ?>
+                    <div class="favorite-icon" <?= $isFavorite ? 'added' : '' ?>" id="favorite-icon" data-video-id="<?= $video_id ?>">Coeur</div>
+                <?php endif; ?>
+            </div> 
+
+            <div>
+                <video controls>
+                    <source src="<?= htmlspecialchars($video['video']); ?>" type="video/mp4">
+                    Votre navigateur ne supporte pas les vidéos.
+                </video>
+            </div>
+
+            <p><strong>Description :</strong> <?= htmlspecialchars($video['description']); ?></p>
+
             <div class="details-container">
                 <div class="details-left">
                     <p>
-                        <strong>Date de mise en ligne :</strong> <?= htmlspecialchars($video['upload_date']); ?>
+                        <strong>Date de mise en ligne :</strong> <?= htmlspecialchars($video['upload_date']); ?><br>
                         <strong>Durée :</strong> <?= htmlspecialchars($video['duration']); ?>
                     </p>
                 </div>
             </div>
-        </div>
-        <div class="details-right">
-            <form method="post" action="add_to_cart.php">
-                <input type="hidden" name="product_id" value="<?= htmlspecialchars($video['id']); ?>">
-                <button type="submit" name="add_to_cart">Ajouter au Panier</button>
-            </form>
-        </div>
-    </div>
 
+            <div class="details-right">
+                <form method="post" action="add_to_cart.php">
+                    <input type="hidden" name="product_id" value="<?= htmlspecialchars($video['id']); ?>">
+                    <button type="submit" name="add_to_cart">Ajouter au Panier</button>
+                </form>
+            </div>
+        </div> 
+    </div> 
+
+    <script src="../js/video.js"></script>
     <?php include 'footer.php'; ?>
 </body>
 </html>
