@@ -1,9 +1,39 @@
 <?php 
+session_start();
 include 'bdd.php';
 
 try {
     $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $dbusername, $dbpassword);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Gérer l'ajout/suppression des favoris en AJAX
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_fav']) && isset($_GET['id'])) {
+        if (!isset($_SESSION['username'])) {
+            echo json_encode(["success" => false, "message" => "Utilisateur non connecté"]);
+            exit();
+        }
+
+        $video_id = (int) $_GET['id'];
+        $user = $_SESSION['username'];
+
+        // Vérifier si la vidéo est en favori
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM favoris WHERE user_id = :user_id AND video_id = :video_id");
+        $stmt->execute(['user_id' => $user, 'video_id' => $video_id]);
+        $isFavorite = $stmt->fetchColumn() > 0;
+
+        if ($isFavorite) {
+            // Supprimer des favoris
+            $deleteStmt = $pdo->prepare("DELETE FROM favoris WHERE user_id = :user_id AND video_id = :video_id");
+            $deleteStmt->execute(['user_id' => $user, 'video_id' => $video_id]);
+            echo json_encode(["success" => true, "action" => "removed"]);
+        } else {
+            // Ajouter aux favoris
+            $insertStmt = $pdo->prepare("INSERT INTO favoris (user_id, video_id) VALUES (:user_id, :video_id)");
+            $insertStmt->execute(['user_id' => $user, 'video_id' => $video_id]);
+            echo json_encode(["success" => true, "action" => "added"]);
+        }
+        exit();
+    }
 
     if (isset($_GET['id'])) {
         $video_id = (int) $_GET['id'];
@@ -17,9 +47,7 @@ try {
         $isFavorite = false;
         if (isset($_SESSION['username'])) {
             $user = $_SESSION['username'];
-            $favStmt = $pdo->prepare(
-                "SELECT COUNT(*) FROM favoris WHERE user_id = :user_id AND video_id = :video_id"
-            );
+            $favStmt = $pdo->prepare("SELECT COUNT(*) FROM favoris WHERE user_id = :user_id AND video_id = :video_id");
             $favStmt->execute(['user_id' => $user, 'video_id' => $video_id]);
             $isFavorite = $favStmt->fetchColumn() > 0;
         }
@@ -30,14 +58,13 @@ try {
     echo "Erreur : " . $e->getMessage();
     exit();
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php htmlspecialchars($video['name'])?></title>
+    <title><?= htmlspecialchars($video['name']) ?></title>
     <link rel="stylesheet" href="../css/video.css">
     <link rel="stylesheet" href="../css/global.css">
 </head>
@@ -49,7 +76,7 @@ try {
             <div class="h1-container">
                 <h1><?= htmlspecialchars($video['name']); ?></h1>
                 <?php if (isset($_SESSION['username'])): ?>
-                    <div class="favorite-icon" <?= $isFavorite ? 'added' : '' ?>" id="favorite-icon" data-video-id="<?= $video_id ?>">Coeur</div>
+                    <div class="favorite-icon <?= $isFavorite ? 'added' : '' ?>" id="favorite-icon" data-video-id="<?= $video_id ?>">❤️</div>
                 <?php endif; ?>
             </div> 
 

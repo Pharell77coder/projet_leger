@@ -1,26 +1,28 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const favoriteIcon = document.getElementById('favorite-icon');
+document.addEventListener("DOMContentLoaded", function () {
+    const favoriteIcon = document.getElementById("favorite-icon");
 
     if (favoriteIcon) {
-        favoriteIcon.addEventListener('click', function () {
-            const videoId = favoriteIcon.getAttribute('data-video-id');
+        favoriteIcon.addEventListener("click", function () {
+            const videoId = this.getAttribute("data-video-id");
 
-            fetch('add_to_favorites.php', {
-                method: 'POST',
+            fetch("video.php?id=" + videoId, {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/x-www-form-urlencoded"
                 },
-                body: JSON.stringify({ video_id: videoId })
+                body: "toggle_fav=1"
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    favoriteIcon.classList.toggle('added');
+                    favoriteIcon.classList.toggle("added");
                 } else {
-                    alert("Erreur lors de l'ajout aux favoris.");
+                    alert("Erreur : " + data.message);
                 }
             })
-            .catch(error => console.error('Erreur:', error));
+            .catch(error => {
+                console.error("Erreur :", error);
+            });
         });
     }
 });

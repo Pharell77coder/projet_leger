@@ -78,5 +78,5 @@ button[name="add_to_cart"]:hover {
 }
 
 .container p, a, h1, h2, h3{
-    color: red;
+    color: black;
 }
