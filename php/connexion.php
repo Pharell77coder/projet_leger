@@ -54,8 +54,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
             <input type="submit" value="connexion">
         </form>
-        
-        <p>Pas encore inscrit ? <a href="inscription.php" class="register-link">Inscrivez-vous ici</a></p>
+        <p>Pas encore inscrit ? <a href="inscription.php" class="register-link">Inscrivez-vous ici</a></p>        
+        <p>Mot de passe oublié ? <a href="reset_password_request.php" class="forgot-password-link">Cliqué ici</a></p>
     </div>
     <?php //include 'footer.php'; ?>
 </body>
