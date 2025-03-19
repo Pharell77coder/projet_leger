@@ -1,25 +1,4 @@
 <?php 
-/*
-session_start();
-
-if(!isset($_SESSION['admin'])) {
-    header("Location: admin.php");
-    exit();
-}
-
-include "bdd.php";
-
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbusername, $dbpassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    $stmt = $conn->query("SHOW TABLES");
-    $tables = $stmt->fetchall(PDO::FETCH_NUM);
-
-} catch (PDOException $e)  {
-    echo "Erreur : " . $e->getMessage();
-}*/
-
 session_start();
 require 'classes/Database.php';
 require 'classes/Admin.php';

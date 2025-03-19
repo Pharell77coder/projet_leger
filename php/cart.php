@@ -105,12 +105,12 @@ if (isset($_POST['remove_item'])) {
     </tbody>
 </table>
 
-<p>Total : <?php echo $total; ?> €</p>
+        <p>Total : <?php echo number_format($total, 2, ',', ' '); ?> €</p>
 
         <form method="post">
             <button type="submit" name="clear_cart">Vider le Panier</button>
         </form>
-        <form method="get" action="checkout.php">
+        <form method="get" action="verification_payement.php">
             <button type="submit">Finaliser le Panier</button>
         </form>
 

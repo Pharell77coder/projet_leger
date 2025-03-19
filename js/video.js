@@ -26,3 +26,18 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+const stars = document.querySelectorAll(".star");
+const noteInput = document.getElementById("note");
+
+stars.forEach(star => {
+    star.addEventListener("click", function () {
+        let value = this.getAttribute("data-value");
+        noteInput.value = value;
+
+        stars.forEach(s => s.classList.remove("selected"));
+        for (let i = 0; i < value; i++) {
+            stars[i].classList.add("selected");
+        }
+    });
+});

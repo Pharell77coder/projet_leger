@@ -51,6 +51,25 @@ try {
             $favStmt->execute(['user_id' => $user, 'video_id' => $video_id]);
             $isFavorite = $favStmt->fetchColumn() > 0;
         }
+
+        // Traitement des avis
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['username'])) {
+            $nom = $_SESSION['username'];
+            $video_title = $video['name'];
+            $commentaire = trim($_POST['commentaire']);
+            $note = (int) $_POST['note'];
+            $date_ajout = date("Y-m-d H:i:s");
+
+            if (!empty($commentaire) && $note >= 1 && $note <= 5) {
+                $stmt = $pdo->prepare("INSERT INTO avis (video_title, nom, commentaire, note, date_ajout) VALUES (?, ?, ?, ?, ?)");
+                $stmt->execute([$video_title, $nom, $commentaire, $note, $date_ajout]);
+            }
+        }
+
+        $avisStmt = $pdo->prepare("SELECT * FROM avis WHERE video_title = ? ORDER BY date_ajout DESC");
+        $avisStmt->execute([$video['name']]);
+        $avis = $avisStmt->fetchAll();
+
     } else {
         die("ID de vidéo non spécifié.");
     }
@@ -106,6 +125,33 @@ try {
             </div>
         </div> 
     </div> 
+    <h2>Donnez votre avis</h2>
+    <?php if (isset($_SESSION['username'])): ?>
+        <form action="" method="post">
+            <input type="hidden" name="note" id="note" value="0">
+
+            <label>Commentaire :</label>
+            <textarea name="commentaire" required></textarea>
+            <button type="submit">Envoyer</button>
+        </form>
+    <?php else: ?>
+        <p><a href="login.php">Connectez-vous</a> pour laisser un avis.</p>
+    <?php endif; ?>
+
+    <div class="star-rating">
+        <?php for ($i = 1; $i <= 5; $i++): ?>
+            <span class="star" data-value="<?= $i; ?>">★</span>
+        <?php endfor; ?>
+    </div>
+    <h2>Avis des utilisateurs</h2>
+    <?php foreach ($avis as $a): ?>
+        <div class="avis">
+            <strong><?= htmlspecialchars($a['nom']); ?></strong> - 
+            <span><?= str_repeat('⭐', $a['note']); ?></span>
+            <p><?= nl2br(htmlspecialchars($a['commentaire'])); ?></p>
+            <small>Posté le <?= $a['date_ajout']; ?></small>
+        </div>
+    <?php endforeach; ?>
 
     <script src="../js/video.js"></script>
     <?php include 'footer.php'; ?>
