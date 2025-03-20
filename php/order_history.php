@@ -2,6 +2,8 @@
 session_start();
 include 'bdd.php';
 
+date_default_timezone_set('Europe/Paris');
+
 if (!isset($_SESSION['username'])) {
     echo "Utilisateur non connecté.";
     exit;
@@ -10,6 +12,8 @@ if (!isset($_SESSION['username'])) {
 $username = $_SESSION['username'];
 
 try {
+    $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $dbusername, $dbpassword);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
     $stmt->execute([$username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -21,7 +25,7 @@ try {
 
     $user_id = $user['id'];
 
-    $stmt = $pod->prepare("
+    $stmt = $pdo->prepare("
         SELECT o.id AS order_id, o.total_price, o.order_date, o.status, p.name AS product_name, p.image AS product_image
         FROM orders o
         JOIN order_items oi ON o.id = oi.order_id
@@ -29,6 +33,9 @@ try {
         WHERE o.user_id = ? AND o.status = 1
         ORDER BY o.order_date DESC
     ");
+    
+    $stmt->execute([$user_id]);
+    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (PDOException $e) {
     echo "Erreur : " . $e->getMessage();
@@ -57,33 +64,35 @@ try {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($oders as $order): ?>
-            <td><img src="../<?php echo $order['product_image']; ?>" alt="<?php echo $order['product_image']; ?>" width="100"></td>
-            <td><?php echo $order['product_name']; ?></td>
-            <td><?php echo $order['total_price']; ?> €</td>
-            <td>
-                <?php
-                switch ($order['status']) {
-                    case 1:
-                        echo 'Payé';
-                        break;
-                    case 2:
-                        echo 'Annulé';
-                        break;
-                    case 3:
-                        echo 'En attente';
-                        break;                       
-        }
-        ?>
-        </td>
-        <td><?php echo htmlspecialchars($order['order_data'])?></td>
-        <?php endforeach ?>
+                <?php foreach ($orders as $order): ?>
+                <tr>
+                    <td><img src="../<?php echo $order['product_image']; ?>" alt="<?php echo $order['product_name']; ?>" width="100"></td>
+                    <td><?php echo htmlspecialchars($order['product_name']); ?></td>
+                    <td><?php echo htmlspecialchars($order['total_price']); ?> €</td>
+                    <td>
+                        <?php
+                        switch ($order['status']) {
+                            case 1:
+                                echo 'Payé';
+                                break;
+                            case 2:
+                                echo 'Annulé';
+                                break;
+                            case 3:
+                                echo 'En attente';
+                                break;                       
+                        }
+                        ?>
+                    </td>
+                    <td><?php echo htmlspecialchars($order['order_date']); ?></td>
+                </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
-        <?php else: ?>
-            <p>Vous n'avez aucune commande payée</p>
-        <?php endif; ?>
-        <a href="../index.php">Reourner au catalogue</a>
+    <?php else: ?>
+        <p>Vous n'avez aucune commande payée</p>
+    <?php endif; ?>
+    <a href="../index.php">Retourner au catalogue</a>
     <?php include 'footer.php'; ?>
 </body>
 </html>
