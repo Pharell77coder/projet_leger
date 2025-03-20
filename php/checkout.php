@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 $cart_items = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];

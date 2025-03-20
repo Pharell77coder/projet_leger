@@ -33,3 +33,10 @@ h2 > span {
   cursor: pointer;
   transition: all 0.2s ease-in;
 }
+
+h1, h2 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px;
+}

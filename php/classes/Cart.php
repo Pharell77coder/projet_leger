@@ -4,7 +4,7 @@ class Cart {
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
-        $_SESSION['cart'][] = $product_id;
+        $_SESSION['cart'][$product_id]++;
     }
 
     public static function getCartItems() {

@@ -93,9 +93,9 @@ if (isset($_POST['remove_item'])) {
     <title>Panier</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/cart.css">
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
 
     <h1>Votre Panier</h1>
 
@@ -161,6 +161,5 @@ if (isset($_POST['remove_item'])) {
 
     <a class="btn" href="../index.php">Retourner au Catalogue</a>
 
-    <?php include 'footer.php'; ?>
 </body>
 </html>

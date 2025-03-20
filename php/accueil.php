@@ -29,23 +29,25 @@ if (isset($_POST['logout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page d'accueil</title>
+    <link rel="stylesheet" href="../css/accueil.css">
 </head>
 <body>
     <?php include 'navbar.php'; 
     $videos =[
-        ['title' => 'Titre', 'description' => 'une description', 'video' => '../videos/video.mp4'],
-        ['title' => 'Titre', 'description' => 'une description', 'video' => '../videos/video.mp4'],
-        ['title' => 'Titre', 'description' => 'une description', 'video' => '../videos/video.mp4'],
-        ['title' => 'Titre', 'description' => 'une description', 'video' => '../videos/video.mp4'],
+        ['title' => 'Titre 1', 'description' => 'une description 1', 'video' => '../videos/video.mp4'],
+        ['title' => 'Titre 2', 'description' => 'une description 2', 'video' => '../videos/video.mp4'],
+        ['title' => 'Titre 3', 'description' => 'une description 3', 'video' => '../videos/video.mp4'],
+        ['title' => 'Titre 4', 'description' => 'une description 4', 'video' => '../videos/video.mp4'],
     ];
 
     foreach ($videos as $video) {
         echo '<div class="video-card>';
         echo '<h3>' . htmlspecialchars($video['title']) . '</h3>';
         echo '<video controls class="video-player">';
-        echo '<source src="' . htmlspecialchars($video['video']) . '" type="video/mp4">';
-        echo 'Votre navigatuer ne supporte pas la vidéo.';
-        echo '</video>';
+        echo '<video controls>';
+        echo '<source src="' . htmlspecialchars($video["video"]) . '" type="video/mp4">';
+        echo' Votre navigateur ne supporte pas les vidéos.';
+        echo' </video>';
         echo '<p>' . htmlspecialchars($video['description']) . '</p>';
         echo '<a href="' . urldecode($video['title']) . '">Voir la vidéo</a>';
         echo '</div>';

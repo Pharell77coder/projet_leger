@@ -32,7 +32,7 @@ $products = $productClass->getFilteredProducts($filters);
 </head>
 <body>
 <?php include 'php/navbar.php'; ?>
-
+<main>
 <h1>Catalogue de Produits</h1>
 
 <form method="get" id="filterForm" class="filterForm">
@@ -69,7 +69,7 @@ $products = $productClass->getFilteredProducts($filters);
     <?php endforeach; ?>
 </div>
 <a class="btn" href="php/cart.php">Voir le Panier</a>
-<?php include 'php/footer.php'; ?>
+</main><?php include 'php/footer.php'; ?>
 <script src="js/index.js"></script>
 </body>
 </html>

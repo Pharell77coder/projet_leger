@@ -33,6 +33,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../css/favorites.css">
 </head>
 <body>
 <?php include 'navbar.php'; ?><br>
@@ -44,7 +45,7 @@ try {
     <?php else: ?>
         <?php foreach ($favoris as $favori): ?>
             <div class="product-item">
-                <img src="<?php echo htmlspecialchars($favori['image']); ?>" 
+                <img src="../<?php echo htmlspecialchars($favori['image']); ?>" 
                      alt="<?php echo htmlspecialchars($favori['name']); ?>">
                 <video controls>
                     <source src="<?php echo htmlspecialchars($favori['video']); ?>" 

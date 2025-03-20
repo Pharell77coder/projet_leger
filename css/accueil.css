@@ -1,0 +1,160 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+h3 {
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: #3498db;
+}
+
+a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Video Card Container */
+.video-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 320px;
+    margin: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Video Player */
+.video-player {
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 15px;
+    max-height: 300px;
+}
+
+/* Video Description */
+.video-card p {
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* Form Styling */
+.avis_form {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.avis_form label {
+    font-size: 16px;
+    color: #333;
+}
+
+.avis_form textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    resize: vertical;
+}
+
+.avis_form textarea:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.avis_form button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.avis_form button:hover {
+    background-color: #2980b9;
+}
+
+/* Star Rating */
+.star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.star {
+    font-size: 30px;
+    color: #f1c40f;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.star:hover {
+    color: #e67e22;
+}
+
+.star.selected {
+    color: #f39c12;
+}
+
+/* Avis Section */
+.avis-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #ddd;
+}
+
+.avis {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.avis strong {
+    font-size: 18px;
+}
+
+.avis span {
+    color: #f1c40f;
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+.avis p {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+}
+
+.avis small {
+    display: block;
+    font-size: 12px;
+    color: #777;
+    margin-top: 10px;
+}
