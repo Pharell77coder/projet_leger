@@ -1,10 +1,21 @@
+# Mon Projet
 
+Ce projet est une application PHP qui utilise **MailDev** pour gérer l'envoi d'e-mails en local. Il permet de configurer un serveur SMTP local, pour tester les fonctionnalités liées à l'envoi de mails.
 
->>> npm install -g maildev
+## Prérequis
 
-php.ini
+- **Node.js** installé sur votre machine.
+- **PHP** version 7 ou supérieure.
+- **MailDev** installé globalement via npm pour simuler un serveur SMTP en local.
 
+## Installation
 
+### 1. Installer MailDev
+
+Installez **MailDev** globalement avec npm :
+
+```bash
+npm install -g maildev
 [mail function]
 ; For Win32 only.
 ; https://php.net/smtp
@@ -12,18 +23,3 @@ SMTP=localhost
 ; https://php.net/smtp-port
 smtp_port=1025
 
-/mon_projet
-│── /classes
-│   │── Cart.php
-│   │── Avis.php
-│   │── Search.php
-│   │── Footer.php
-│── /controllers
-│   │── cartController.php
-│   │── avisController.php
-│   │── searchController.php
-│── /views
-│   │── accueil.php
-│   │── footer.php
-│── index.php
-│── config.php
