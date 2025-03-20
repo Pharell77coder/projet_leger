@@ -14,7 +14,7 @@ Ce projet est une application PHP qui utilise **MailDev** pour gérer l'envoi d'
 
 Installez **MailDev** globalement avec npm :
 
-```bash
+```txt
 npm install -g maildev
 [mail function]
 ; For Win32 only.
@@ -22,4 +22,10 @@ npm install -g maildev
 SMTP=localhost
 ; https://php.net/smtp-port
 smtp_port=1025
+```
 
+### executer
+
+```bash
+npm install -g maildev
+```
