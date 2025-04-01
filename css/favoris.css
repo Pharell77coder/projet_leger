@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap');
+
+/*-- VARIABLES CSS--*/
+:root {
+    --first-color: #E3F8FF;
+    --second-color: #DCFAFB;
+    --third-color: #FFE8DF;
+    --accent-color: #1189DD;
+    --dark-color: #161616;
+    --button-color: #007BFF;
+}
+
+/*-- BASE --*/
+*,::after,::before {
+    box-sizing: border-box;
+}
+body {
+    margin: 2rem 0;
+    background-color: #fff;
+    color: var(--dark-color);
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+}
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+a {
+    text-decoration: none;
+    color: var(--dark-color);
+}
+
+/*-- GRID LAYOUT --*/
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: auto;
+    padding: 2rem;
+}
+
+/*-- PRODUCT CARD --*/
+.product-item {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 250px;
+    height: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: auto;
+    transition: transform 0.3s ease-in-out;
+}
+
+.product-item img {
+    width: 100%;
+    height: 160px;
+    border-radius: 8px;
+    object-fit: cover;
+    transition: transform 0.5s ease-in-out;
+}
+
+.product-item h2 {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+.product-item p {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+/*-- ICÔNE FAVORI --*/
+.favorite-icon {
+    color: white;
+    padding: 0.5rem 1rem;
+    background: var(--button-color);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.favorite-icon:hover {
+    background: var(--accent-color);
+}
+
+.favorite-icon.added {
+    background: gold;
+}
+
+/*-- RESPONSIVE DESIGN --*/
+@media screen and (max-width: 768px) {
+    .product-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .product-list {
+        grid-template-columns: 1fr;
+    }
+}

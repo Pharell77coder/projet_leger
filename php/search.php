@@ -1,12 +1,11 @@
 <?php
-include 'bdd.php';
+require_once 'classes/Database.php';
 
 if (isset($_GET['query'])) {
     $search = htmlspecialchars($_GET['query']);
 
     try {
-        $pdo = new PDO("mysql:host=localhost;dbname=$dbname", "root", "");
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo = Database::getInstance()->getConnection();
     } catch (PDOException $e) {
         die("Erreur de connexion : " . $e->getMessage());
     }
@@ -26,6 +25,7 @@ if (isset($_GET['query'])) {
     <title>Résultats de recherche</title>
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/product.css">
+    <link rel="stylesheet" href="../css/index.css">
 </head>
 <body>
    <?php include 'navbar.php' ?> 

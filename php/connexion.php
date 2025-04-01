@@ -1,38 +1,37 @@
 <?php 
 session_start();
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+require_once 'classes/Database.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = htmlspecialchars(trim($_POST['email']));
     $password = htmlspecialchars(trim($_POST['password']));
 
-    include 'bdd.php';
-
     try {
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbusername, $dbpassword);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = Database::getInstance()->getConnection();
 
         $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->bindParam(':email', $email);
         $stmt->execute();
 
-        if($stmt->rowCount() > 0) {
+        if ($stmt->rowCount() > 0) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if(password_verify($password, $user['password'])){
+            if (password_verify($password, $user['password'])) {
                 $_SESSION['username'] = $user['username'];
                 header("Location: ../index.php");
                 exit();
             } else {
-                echo "<p style='color: red;'>Mot de passe incorrect.</p>";
+                $error_message = "Mot de passe incorrect.";
             }
         } else {
-            echo "<p style='color: red;'>Email non trouvé</p>";
-        } 
+            $error_message = "Email non trouvé.";
+        }
     } catch (PDOException $e) {
-        echo "<p style='color: red;'>Erreur SQL : " . $e->getMessage() . "</p>";
+        $error_message = "Erreur SQL : " . $e->getMessage();
     }
-    $conn = null;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -42,9 +41,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <link rel="stylesheet" href="../css/connexion.css">
 </head>
 <body>
-<?php //include 'navbar.php'; ?>
+<?php include 'navbar.php'; ?>
     <div class="signup-container">
-        <h2>connexion</h2>
+        <h2>Connexion</h2>
+
+        <?php if (!empty($error_message)): ?>
+            <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
+        <?php endif; ?>
+
         <form action="connexion.php" method="POST">
             <label for="email">Email :</label>
             <input type="email" id="email" name="email" required>
@@ -52,11 +56,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             <label for="password">Mot de passe :</label>
             <input type="password" id="password" name="password" required>
 
-            <input type="submit" value="connexion">
+            <input type="submit" value="Connexion">
         </form>
         <p>Pas encore inscrit ? <a href="inscription.php" class="register-link">Inscrivez-vous ici</a></p>        
-        <p>Mot de passe oublié ? <a href="reset_password_request.php" class="forgot-password-link">Cliqué ici</a></p>
+        <p>Mot de passe oublié ? <a href="reset_password_request.php" class="forgot-password-link">Cliquez ici</a></p>
     </div>
-    <?php //include 'footer.php'; ?>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

@@ -5,13 +5,11 @@ if (!isset($_SESSION['admin'])) {
     header("Location: admin.php");
     exit();
 }
-include 'bdd.php';
-
+require_once 'classes/Database.php';
 
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbusername, $dbpassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+    $conn = Database::getInstance()->getConnection();
+    
     if(isset($_GET['table']) && isset($_GET['id'])) {
         $table = $_GET['table'];
         $id = $_GET['id'];

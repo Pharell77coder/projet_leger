@@ -9,15 +9,14 @@ if ($_SERVER['HTTP_HOST'] === 'localhost') {
     $base_url = "/"; 
 }
 
-include'bdd.php';
+require_once 'classes/Database.php';
 
 $favoris_exist = false;
 
 if (isset($_SESSION['username'])) {
     try {
         if (!isset($pdo)) {
-            $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $dbusername, $dbpassword);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo = Database::getInstance()->getConnection();
         }
 
         $stmt = $pdo->prepare("SELECT COUNT(*) FROM favoris WHERE user_id = :user_id");
@@ -39,6 +38,7 @@ if (isset($_SESSION['username'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navbar</title>
+    <link rel="stylesheet" href="<?php echo $base_url; ?>css/global.css">
     <link rel="stylesheet" href="<?php echo $base_url; ?>css/navbar.css">
 </head>
 <body>
@@ -51,15 +51,15 @@ if (isset($_SESSION['username'])) {
         <div class="search-bar">
             <form action="<?php echo $base_url; ?>php/search.php" method="get">
                 <input class="search-bar-input" type="text" name="query" placeholder="Rechercher une vidéo...." required>
-                <button type="submit" class="search-button">
-                    <img src="<?php echo $base_url; ?>images/loupe.png" alt="Rechercher" class="search-icon">
-                </button>
+                <!--<button type="submit" class="search-button">
+                    <img src="<?php //echo $base_url; ?>images/loupe.png" alt="Rechercher" class="search-icon">
+                </button>-->
             </form> 
         </div>
 
         <div class="navbar-right">
             <?php if (!isset($_SESSION['username'])): ?>
-                <a href="<?php echo $base_url; ?>php/accueil.php">Home</a>
+                <a href="<?php echo $base_url; ?>php/accueil.php">Accueil</a>
                 <a href="<?php echo $base_url; ?>index.php">Produit</a>
                 <a href="<?php echo $base_url; ?>php/connexion.php" class="cart-link">
                     <img src="<?php echo $base_url; ?>images/connexion.png" alt="Connexion" class="cart-icon" title="Connexion">
@@ -68,7 +68,7 @@ if (isset($_SESSION['username'])) {
                     <img src="<?php echo $base_url; ?>images/formulaire.png" alt="Formulaire" class="cart-icon" title="Formulaire">
                 </a>
             <?php else: ?>
-                <a href="<?php echo $base_url; ?>php/accueil.php">Home</a>
+                <a href="<?php echo $base_url; ?>php/accueil.php">Accueil</a>
                 <a href="<?php echo $base_url; ?>index.php">Produit</a>
                 <a href="<?php echo $base_url; ?>php/favoris.php">Favoris</a>
                 <a href="<?php echo $base_url; ?>php/compte.php" class="cart-link">

@@ -1,26 +1,19 @@
 <?php
 
-session_start();
+require_once 'classes/UserSession.php';
 
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+$userSession = new UserSession();
 
-date_default_timezone_set('Europe/Paris');
-
-include 'bdd.php';
-
-if (!isset($_SESSION['username'])) {
+if (!$userSession->isUserLoggedIn()) {
     header("Location: connexion.php");
     exit;
 }
 
 if (isset($_POST['logout'])) {
-    session_destroy();
-    header("Location: connexion.php");
-    exit();
+    $userSession->logout();
 }
 
+$videos = $userSession->getVideos();
 ?>
 
 <!DOCTYPE html>
@@ -32,65 +25,55 @@ if (isset($_POST['logout'])) {
     <link rel="stylesheet" href="../css/accueil.css">
 </head>
 <body>
-    <?php include 'navbar.php'; 
-    $videos =[
-        ['title' => 'Titre 1', 'description' => 'une description 1', 'video' => '../videos/video.mp4'],
-        ['title' => 'Titre 2', 'description' => 'une description 2', 'video' => '../videos/video.mp4'],
-        ['title' => 'Titre 3', 'description' => 'une description 3', 'video' => '../videos/video.mp4'],
-        ['title' => 'Titre 4', 'description' => 'une description 4', 'video' => '../videos/video.mp4'],
-    ];
-
-    foreach ($videos as $video) {
-        echo '<div class="video-card>';
-        echo '<h3>' . htmlspecialchars($video['title']) . '</h3>';
-        echo '<video controls class="video-player">';
-        echo '<video controls>';
-        echo '<source src="' . htmlspecialchars($video["video"]) . '" type="video/mp4">';
-        echo' Votre navigateur ne supporte pas les vidéos.';
-        echo' </video>';
-        echo '<p>' . htmlspecialchars($video['description']) . '</p>';
-        echo '<a href="' . urldecode($video['title']) . '">Voir la vidéo</a>';
-        echo '</div>';
-
-        if (isset($_SESSION['username'])) {
-            echo '<form action="ajouter_avis.php" method="post" class="avis_form">';
-            echo '<input type="hidden" name="video_title" value="' . htmlspecialchars($video['title']) . '">';
-            echo '<input type="hidden" name="nom" value="' . htmlspecialchars($_SESSION['username']) . '">';
-        
-            echo '<label>Commentaire :</label>';
-            echo '<textarea name="commentaire" required></textarea>';
-        
-            echo '<input type="hidden" name="note" id="note_' . htmlspecialchars($video['title']) . '" value="0">';
-        
-            echo '<div class="star-rating" data-video="' . htmlspecialchars($video['title']) . '">';
-            for ($i = 1; $i <= 5; $i++) {
-                echo '<span class="star" data-value="' . $i . '">★</span>';
-            }
-            echo '</div>';
-        
-            echo '<button type="submit">Envoyer l\'avis</button>';
-            echo '</form>';
-        } else {
-            echo '<p><a href="login.php">Connectez-vous</a> pour laisser un avis.</p>';
-        }
-        $stmt = $pdo->prepare("SELECT * FROM avis WHERE video_title = ? ORDER BY date_ajout DESC");
-        $stmt->execute([$video['title']]);
-        $avis = $stmt->fetchAll();
-
-        echo '<div class="avis-section">';
-        foreach ($avis as $a) {
-            echo '<div class="avis">';
-            echo '<strong>' . htmlspecialchars($a['nom']) . '</strong> ';
-            echo '<span>' . str_repeat('★', $a['note']) . '</span>';
-            echo '<p>' . nl2br(htmlspecialchars($a['commentaire'])) . '</p>';
-            echo '<small>' . $a['date_ajout'] . '</small>';
-            echo '</div>';
-        }
-        echo '</div>';
-
-    }
-
-    include 'footer.php'; ?>
+    <?php include 'navbar.php'; ?>
+    
+    <?php foreach ($videos as $video): ?>
+        <div class="video-card">
+            <h3><?= htmlspecialchars($video['name']) ?></h3>
+            <video controls class="video-player">
+                <source src="<?= htmlspecialchars($video['video']) ?>" type="video/mp4">
+                Votre navigateur ne supporte pas les vidéos.
+            </video>
+            <p><?= htmlspecialchars($video['description']) ?></p>
+            <a href="<?= urldecode($video['name']) ?>">Voir la vidéo</a>
+            
+            <?php if ($userSession->isUserLoggedIn()): ?>
+                <form action="ajouter_avis.php" method="post" class="avis_form">
+                    <input type="hidden" name="video_name" value="<?= htmlspecialchars($video['name']) ?>">
+                    <input type="hidden" name="nom" value="<?= htmlspecialchars($_SESSION['username']) ?>">
+                    
+                    <label>Commentaire :</label>
+                    <textarea name="commentaire" required></textarea>
+                    
+                    <input type="hidden" name="note" id="note_<?= htmlspecialchars($video['name']) ?>" value="0">
+                    
+                    <div class="star-rating" data-video="<?= htmlspecialchars($video['name']) ?>">
+                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                            <span class="star" data-value="<?= $i ?>">★</span>
+                        <?php endfor; ?>
+                    </div>
+                    
+                    <button type="submit">Envoyer l'avis</button>
+                </form>
+            <?php else: ?>
+                <p><a href="login.php">Connectez-vous</a> pour laisser un avis.</p>
+            <?php endif; ?>
+            
+            <?php $comments = $userSession->getComments($video['name']); ?>
+            <div class="avis-section">
+                <?php foreach ($comments as $comment): ?>
+                    <div class="avis">
+                        <strong><?= htmlspecialchars($comment['nom']) ?></strong>
+                        <span><?= str_repeat('★', $comment['note']) ?></span>
+                        <p><?= nl2br(htmlspecialchars($comment['commentaire'])) ?></p>
+                        <small><?= $comment['date_ajout'] ?></small>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+    
+    <?php include 'footer.php'; ?>
     <script src="../js/accueil.js"></script>
 </body>
 </html>

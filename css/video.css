@@ -1,193 +1,138 @@
-/* Global Styles */
+/* Styles généraux */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    color: #333;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.video-details {
+    text-align: center;
 }
 
 h1, h2 {
-    color: #333;
-    text-align: center;
-    margin: 20px 0;
-}
-
-/* Container */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Video Details */
-.video-details {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* Header Container for Video Title and Favorite Icon */
-.h1-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.favorite-icon {
     font-size: 24px;
-    cursor: pointer;
-    transition: color 0.3s ease;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
-.favorite-icon.added {
-    color: red;
-}
-
-/* Video */
-video {
+.video-details video {
     width: 100%;
-    max-width: 100%;
-    border-radius: 8px;
-    background-color: #000;
+    max-width: 700px;
+    border-radius: 5px;
+    margin-top: 10px;
 }
 
-/* Description */
-p {
-    font-size: 16px;
-    color: #555;
-}
-
-/* Details Section */
 .details-container {
     display: flex;
     justify-content: space-between;
+    margin-top: 10px;
 }
 
-.details-left {
-    font-size: 14px;
-    color: #555;
-}
-
-.details-right form {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.details-right button {
-    background-color: #3498db;
+button {
+    background: #007BFF;
     color: white;
-    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    padding: 10px 15px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    border-radius: 5px;
 }
 
-.details-right button:hover {
-    background-color: #2980b9;
+button:hover {
+    background: #0056b3;
 }
 
-/* Comment and Rating Section */
-h2 {
-    margin-top: 40px;
+/* Section avis */
+.avis-section {
+    max-width: 500px;  /* Réduction de la largeur */
+    margin: 30px auto; /* Centrage */
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     text-align: center;
-    color: #333;
+}
+
+.avis {
+    max-width: 450px;  /* Réduction de la largeur des commentaires */
+    margin: 10px auto; /* Centrage */
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    border-left: 4px solid #007BFF;
+    text-align: left; /* Alignement du texte des commentaires */
+}
+
+.avis strong {
+    font-size: 16px;
+    display: block;
+}
+
+.avis span {
+    color: gold;
+    font-size: 14px;
+}
+
+.avis p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.avis small {
+    color: gray;
+    font-size: 12px;
+}
+
+/* Formulaire d'avis */
+form {
+    max-width: 500px;
+    margin: 20px auto;
+    text-align: center;
 }
 
 textarea {
     width: 100%;
-    padding: 10px;
-    font-size: 14px;
+    height: 80px;
+    resize: none;
     border-radius: 5px;
-    border: 1px solid #ddd;
-    resize: vertical;
+    padding: 5px;
+    border: 1px solid #ccc;
 }
 
-textarea:focus {
-    outline: none;
-    border-color: #3498db;
-}
-
-button[type="submit"] {
-    background-color: #3498db;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
-}
-
-button[type="submit"]:hover {
-    background-color: #2980b9;
-}
-
-/* Star Rating */
 .star-rating {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
+    text-align: center;
+    margin: 10px 0;
 }
 
 .star {
-    font-size: 30px;
-    color: #f1c40f;
+    font-size: 20px;
     cursor: pointer;
-    transition: color 0.3s ease;
+    color: gray;
 }
 
-.star:hover {
-    color: #e67e22;
+.star:hover, .star.active {
+    color: gold;
 }
 
-.star.selected {
-    color: #f39c12;
+/* Icône favoris */
+.favorite-icon {
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: #eee;
 }
 
-/* User Reviews */
-.avis {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-top: 20px;
-}
-
-.avis strong {
-    font-size: 18px;
-}
-
-.avis span {
-    color: #f1c40f;
-    font-size: 18px;
-    margin-left: 5px;
-}
-
-.avis p {
-    font-size: 14px;
-    color: #555;
-    margin-top: 10px;
-}
-
-.avis small {
-    display: block;
-    font-size: 12px;
-    color: #777;
-    margin-top: 10px;
-}
-
-/* No Comments Message */
-p a {
-    color: #3498db;
-    text-decoration: none;
-}
-
-p a:hover {
-    text-decoration: underline;
+.favorite-icon.added {
+    background: gold;
+    color: white;
 }

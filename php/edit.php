@@ -5,12 +5,10 @@ if (!isset($_SESSION['admin'])) {
     header("Location: admin.php");
     exit();
 }
-include 'bdd.php';
-
+require_once 'classes/Database.php';
 
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbusername, $dbpassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn = Database::getInstance()->getConnection();
 
     if(isset($_GET['table']) && isset($_GET['id'])) {
         $table = $_GET['table'];
@@ -64,10 +62,11 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier l'enregistrement</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/connexion.css">
 </head>
 <body>
-
+<?php include 'navbar.php'; ?>
     <h2>Modifie l'enregistrement dans la table"<?php echo $table;?>"</h2>
 
     <form action="" method="POST">
@@ -80,6 +79,6 @@ try {
         <?php endforeach; ?>
         <input type="submit" value="Enregistrer les modifications">
     </form>
-
+    <?php include 'footer.php'; ?>
 </body>
 </html>

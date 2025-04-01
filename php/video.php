@@ -1,11 +1,9 @@
 <?php 
 session_start();
-include 'bdd.php';
+require_once('classes/Database.php');
 
 try {
-    $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $dbusername, $dbpassword);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+    $pdo = Database::getInstance()->getConnection();
     // Gérer l'ajout/suppression des favoris en AJAX
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_fav']) && isset($_GET['id'])) {
         if (!isset($_SESSION['username'])) {
@@ -95,7 +93,9 @@ try {
             <div class="h1-container">
                 <h1><?= htmlspecialchars($video['name']); ?></h1>
                 <?php if (isset($_SESSION['username'])): ?>
-                    <div class="favorite-icon <?= $isFavorite ? 'added' : '' ?>" id="favorite-icon" data-video-id="<?= $video_id ?>">❤️</div>
+                    <div class="favorite-icon <?= $isFavorite ? 'added' : '' ?>" id="favorite-icon" data-video-id="<?= $video_id ?>">
+                        <?= $isFavorite ? 'Favori' : 'Favori' ?>
+                    </div>
                 <?php endif; ?>
             </div> 
 

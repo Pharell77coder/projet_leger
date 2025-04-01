@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'php/classes/Database.php';
+require_once 'php/classes/Database.php';
 require 'php/classes/Product.php';
 
 $productClass = new Product();
@@ -29,6 +29,7 @@ $products = $productClass->getFilteredProducts($filters);
     <title>Catalogue de Produits</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/product.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 <?php include 'php/navbar.php'; ?>

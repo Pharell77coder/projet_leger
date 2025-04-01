@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 20 mars 2025 à 02:26
+-- Généré le : sam. 29 mars 2025 à 18:14
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -36,16 +36,6 @@ CREATE TABLE `avis` (
   `date_ajout` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `avis`
---
-
-INSERT INTO `avis` (`id`, `video_title`, `nom`, `commentaire`, `note`, `date_ajout`) VALUES
-(1, 'Titre', 'Administrateur', 'wx', 0, '2025-03-19 23:47:38'),
-(2, 'Titre', 'Administrateur', 'hello world', 0, '2025-03-19 23:47:49'),
-(3, 'Montre GPS Garmin Forerunner 245', 'Administrateur', 'zer', 4, '2025-03-20 00:02:46'),
-(4, 'Titre', 'Administrateur', 'dsfqsd', 4, '2025-03-20 00:03:07');
-
 -- --------------------------------------------------------
 
 --
@@ -58,13 +48,6 @@ CREATE TABLE `favoris` (
   `video_id` int(11) NOT NULL,
   `date_added` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `favoris`
---
-
-INSERT INTO `favoris` (`id`, `user_id`, `video_id`, `date_added`) VALUES
-(44, 'Administrateur', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -84,14 +67,6 @@ CREATE TABLE `orders` (
   `email_order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `orders`
---
-
-INSERT INTO `orders` (`id`, `user_id`, `product_id`, `quantity`, `total_price`, `order_date`, `payment_method`, `status`, `email_order`) VALUES
-(8, 1, 0, 1, 349, '2025-03-20 00:44:17', '', 0, 0),
-(9, 1, 0, 1, 799, '2025-03-20 01:04:31', '', 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -106,20 +81,6 @@ CREATE TABLE `order_items` (
   `price` decimal(10,0) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `order_items`
---
-
-INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`) VALUES
-(1, 4, 1, 1, 799),
-(2, 4, 2, 1, 1499),
-(3, 5, 1, 1, 799),
-(4, 6, 1, 1, 799),
-(5, 6, 1, 1, 799),
-(6, 7, 1, 1, 799),
-(7, 8, 3, 1, 349),
-(8, 9, 1, 1, 799);
-
 -- --------------------------------------------------------
 
 --
@@ -133,17 +94,6 @@ CREATE TABLE `password_resets` (
   `expires_at` datetime NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `password_resets`
---
-
-INSERT INTO `password_resets` (`id`, `email`, `token`, `expires_at`, `created_at`) VALUES
-(6, 'titi.pharell77420@gmail.com', '98fc58bce7ca6ef6aca4a6007c89d708d1a5a0f1538eade2bd0f2681fbb42f2d', '2025-03-19 15:57:22', '2025-03-19 15:42:22'),
-(7, 'titi.pharell77420@gmail.com', '18096f10943f7d23005ff9eb9dcdbe0ed4d2d8cb0a918e42c4df527a79154848', '2025-03-19 15:57:28', '2025-03-19 15:42:28'),
-(8, 'titi.pharell77420@gmail.com', '570411789769f5f34a16908e7d2029ca2a946abaa456ddee12fce1a5dfe157bf', '2025-03-19 15:57:32', '2025-03-19 15:42:32'),
-(9, 'titi.pharell77420@gmail.com', '998075349d4e46753b9a2b300b18044be012fc81cf7edd92fb06617cf3453ae5', '2025-03-19 15:59:37', '2025-03-19 15:44:37'),
-(10, 'titi.pharell77420@gmail.com', '6c60625b44c5d3a8077c4e51a677afeb421143ddbd28cca64bfc3a08a75e4856', '2025-03-19 16:07:17', '2025-03-19 15:52:17');
 
 -- --------------------------------------------------------
 
@@ -258,31 +208,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `avis`
 --
 ALTER TABLE `avis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `favoris`
 --
 ALTER TABLE `favoris`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `password_resets`
 --
 ALTER TABLE `password_resets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `users`

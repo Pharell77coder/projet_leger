@@ -1,19 +1,34 @@
 <?php
-include 'bdd.php';
+session_start();
+require_once 'classes/Database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $video_title = $_POST['video_title'];
-    $nom = $_POST['nom'];
-    $commentaire = $_POST['commentaire'];
+    $video_title = htmlspecialchars(trim($_POST['video_title']));
+    $nom = htmlspecialchars(trim($_POST['nom']));
+    $commentaire = htmlspecialchars(trim($_POST['commentaire']));
     $note = intval($_POST['note']);
 
-    $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $dbusername, $dbpassword);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    try {
+        // Récupérer la connexion à la base de données depuis la classe Database
+        $pdo = Database::getInstance()->getConnection();
 
-    $stmt = $pdo->prepare("INSERT INTO avis (video_title, nom, commentaire, note) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$video_title, $nom, $commentaire, $note]);
+        // Préparer la requête
+        $stmt = $pdo->prepare("INSERT INTO avis (video_title, nom, commentaire, note) VALUES (:video_title, :nom, :commentaire, :note)");
 
-    header("Location: accueil.php");
-    exit;
+        // Exécuter la requête en liant les paramètres
+        $stmt->execute([
+            ':video_title' => $video_title,
+            ':nom' => $nom,
+            ':commentaire' => $commentaire,
+            ':note' => $note
+        ]);
+
+        // Redirection après insertion réussie
+        header("Location: accueil.php");
+        exit;
+    } catch (PDOException $e) {
+        echo "<p style='color:red;'>Erreur : " . htmlspecialchars($e->getMessage()) . "</p>";
+    }
 }
 ?>
+

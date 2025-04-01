@@ -1,12 +1,10 @@
 <?php
 session_start();
 
-include 'bdd.php';
+require_once('classes/Database.php');
 
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbusername, $dbpassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+    $conn = Database::getInstance()->getConnection();
     $stmt = $conn->prepare("SELECT id, name, image, video, price FROM products");
     $stmt->execute();
     $products = [];
@@ -96,7 +94,7 @@ if (isset($_POST['remove_item'])) {
     <link rel="stylesheet" href="../css/cart.css">
 </head>
 <body>
-
+    <?php include 'navbar.php'; ?>
     <h1>Votre Panier</h1>
 
     <?php if (!empty($_SESSION['cart'])): ?>
@@ -160,6 +158,6 @@ if (isset($_POST['remove_item'])) {
     <?php endif; ?>
 
     <a class="btn" href="../index.php">Retourner au Catalogue</a>
-
+    <?php include 'footer.php'; ?>
 </body>
 </html>

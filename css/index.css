@@ -1,0 +1,88 @@
+/*-- FORMULAIRE DE FILTRES --*/
+.filterForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: auto;
+}
+
+.filterForm label {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.filterForm input[type="checkbox"] {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+/*-- SLIDER DE PRIX --*/
+.price-slider {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.price-slider input[type="range"] {
+    width: 80%;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--second-color);
+    height: 6px;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+.price-slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--button-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.price-values {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    font-size: 1rem;
+}
+
+/*-- BOUTON "VOIR LE PANIER" --*/
+.btn {
+    display: block;
+    text-align: center;
+    background-color: var(--button-color);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    width: max-content;
+    margin: 2rem auto;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn:hover {
+    background-color: transparent;
+    color: var(--button-color);
+    border: 1px solid var(--button-color);
+}
+
+h1 {
+    text-align: center;
+}

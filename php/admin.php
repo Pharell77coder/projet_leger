@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'classes/Database.php';
+require_once 'classes/Database.php';
 require 'classes/Admin.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/connexion.css">
 </head>
 <body>

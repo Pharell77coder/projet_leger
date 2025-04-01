@@ -1,6 +1,7 @@
 <?php
+/* pas de classe */
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    include 'bdd.php';
+    require_once 'classes/Database.php';
 
     // Récupérer et nettoyer les données du formulaire
     $token = htmlspecialchars(trim($_POST['token'])); // Le token unique pour réinitialisation
@@ -18,8 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit; // Arrêter l'exécution si les mots de passe ne correspondent pas
     }
     try {
-        $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $dbusername, $dbpassword);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo = Database::getInstance()->getConnection();
 
         // Vérifier que le token est valide et non expiré
         $stmt = $pdo->prepare("SELECT email FROM password_resets WHERE token = :token AND expires_at > NOW()");
@@ -65,8 +65,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réinitialiser le mot de passe oublié</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/connexion.css">
 </head>
 <body>
+<?php include 'navbar.php'; ?>
 <div class="login-container">
     <div class="form-container">
         <h2>Réinitialisation du mot de passe</h2>
@@ -80,5 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </div>
 </div>
+<?php include 'footer.php'; ?>
 </body>
 </html>

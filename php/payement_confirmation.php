@@ -1,14 +1,13 @@
 <?php
 session_start();
 
-include 'bdd.php';
+require_once 'classes/Database.php';
 
 if (isset($_GET['order_id'])) {
     $order_id = $_GET['order_id'];
 
     try {
-        $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $dbusername, $dbpassword);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo = Database::getInstance()->getConnection();
 
         if (isset($_SESSION['username'])) {
             $username = $_SESSION['username'];

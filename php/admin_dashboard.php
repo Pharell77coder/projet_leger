@@ -1,8 +1,7 @@
 <?php 
 session_start();
-require 'classes/Database.php';
+require_once 'classes/Database.php';
 require 'classes/Admin.php';
-include 'bdd.php';
 
 if (!isset($_SESSION['admin'])) {
     header("Location: admin.php");
@@ -11,7 +10,9 @@ if (!isset($_SESSION['admin'])) {
 
 $admin = new Admin();
 $tables = $admin->getTables();
+
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -22,19 +23,20 @@ $tables = $admin->getTables();
     <link rel="stylesheet" href="../css/cart.css">
 </head>
 <body>
+    <?php include 'navbar.php'; ?>
     <h1>Bienvenue Administrateur</h1>
 
-    <h2>Liste des tables de la base de données <?php echo $dbname; ?></h2>
+    <h2>Liste des tables de la base de données</h2>
 
     <?php 
     if ($tables) {
-        foreach ($tables as $table) {
-            $tableName = $table[0];
-            echo "<h3>Table : $tableName </h3>";
-            
-            try {
-                $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbusername, $dbpassword);
-                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        try {
+            // Obtenir la connexion à la base de données
+            $conn = Database::getInstance()->getConnection();
+
+            foreach ($tables as $table) {
+                $tableName = $table[0];
+                echo "<h3>Table : " . htmlspecialchars($tableName) . "</h3>";
 
                 $stmt = $conn->query("SELECT * FROM $tableName");
                 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -62,30 +64,66 @@ $tables = $admin->getTables();
                         }
 
                         echo "<td>";
-                        echo "<a href='edit.php?table=$tableName&id={$row[$idColumn]}'>Modifier</a> ";
-                        echo "<a href='delete.php?table=$tableName&id={$row[$idColumn]}' onclick='return confirm(\"Etes-vous sûr de vouloir supprimer cet enregistrement ?\");'>Supprimer</a>";
+                        echo "<a href='edit.php?table=" . urlencode($tableName) . "&id=" . urlencode($row[$idColumn]) . "'>Modifier</a> ";
+                        echo "<a href='delete.php?table=" . urlencode($tableName) . "&id=" . urlencode($row[$idColumn]) . "' onclick='return confirm(\"Etes-vous sûr de vouloir supprimer cet enregistrement ?\");'>Supprimer</a>";
                         echo "</td>";
                         echo "</tr>";
                     }
 
                     echo "</table>";
                 } else {
-                    echo "<p>Aucune donnée disponible dans la table $tableName.</p>";
+                    echo "<p>Aucune donnée disponible dans la table " . htmlspecialchars($tableName) . ".</p>";
                 }
+
                 echo "<form method='post' action='create.php'>";
                 echo "<input type='hidden' name='table' value='" . htmlspecialchars($tableName) . "'>";
-                echo "<p><button type='submit'>Ajouter un nouvel enregistrement dans la table " . htmlspecialchars($tableName) . "</button> </p> </form>";
-                
-            } catch (PDOException $e) {
-                echo "Erreur : " . $e->getMessage();
+                echo "<p><button type='submit'>Ajouter un nouvel enregistrement dans la table " . htmlspecialchars($tableName) . "</button></p>";
+                echo "</form>";
             }
-
+        } catch (PDOException $e) {
+            echo "<p style='color:red;'>Erreur : " . htmlspecialchars($e->getMessage()) . "</p>";
         }
     } else {
         echo "<p>Aucune table trouvée dans la base de données.</p>";
     }
-
-    $conn = null;
     ?>
+    <?php include 'footer.php'; ?>
 </body>
 </html>
+
+
+<?php
+/*
+class Admin {
+    private $pdo;
+
+    public function __construct() {
+        require 'bdd.php'; // Inclure les informations de connexion
+        try {
+            $this->pdo = new PDO("mysql:host=$servername;dbname=$dbname", $dbusername, $dbpassword);
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("Erreur de connexion : " . $e->getMessage());
+        }
+    }
+
+    public function getTables() {
+        try {
+            $stmt = $this->pdo->query("SHOW TABLES");
+            return $stmt->fetchAll(PDO::FETCH_NUM);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function getTableData($tableName) {
+        try {
+            $stmt = $this->pdo->query("SELECT * FROM `" . $tableName . "`");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+}
+*/
+?>
