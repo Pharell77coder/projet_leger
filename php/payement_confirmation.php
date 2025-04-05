@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 require_once 'classes/Database.php';
 
 if (isset($_GET['order_id'])) {
@@ -16,22 +15,24 @@ if (isset($_GET['order_id'])) {
             $stmt->execute([$username]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($user) {
-                $user_od = $user['id'];
+                $user_id = $user['id'];
             } else {
-                "Utilisateur non trouvé.";
+                echo "Utilisateur non trouvé.";
+                exit;
             }
         } else {
             echo "Utilisateur non connecté.";
             exit;
         }
+
         $stmt = $pdo->prepare("SELECT * FROM orders WHERE id = ? AND user_id = ?");
         $stmt->execute([$order_id, $user_id]);
         $order = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
         if ($order) {
             $stmt = $pdo->prepare("UPDATE orders SET status = 1 WHERE id = ?");
             $stmt->execute([$order_id]);
-    
+
             if ($stmt->rowCount() > 0) {
                 echo "La commande avec l'ID $order_id a été validée avec succès.";
             } else {
@@ -39,10 +40,11 @@ if (isset($_GET['order_id'])) {
             }
         } else {
             echo "Commande non trouvée ou vous n'êtes pas autorisé à la valider.";
+            exit();
         }
-    
+
         header("Location: order_history.php");
-        exit;
+        exit();
     } catch (PDOException $e) {
         echo "Erreur lors de la mise à jour du statut : " . $e->getMessage();
     }

@@ -111,6 +111,7 @@ if (!empty($paidorders)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historique des commandes</title>
+    <link rel="stylesheet" href="../css/cart.css">
 </head>
 <body>
     <?php include 'navbar.php'; ?>
@@ -130,6 +131,7 @@ if (!empty($paidorders)) {
             <tbody>
                 <?php foreach ($orders as $order): ?>
                 <tr>
+                    <td><img src="../<?php echo htmlspecialchars($order['product_image']); ?>" alt="<?php echo htmlspecialchars($order['product_name']); ?>"/></td>
                     <td><?php echo htmlspecialchars($order['product_name']); ?></td>
                     <td><?php echo number_format($order['total_price'], 2, ',', ' ') . "€"; ?></td>
                     <td>

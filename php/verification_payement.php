@@ -11,7 +11,7 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
     $user_id = 1;
     $order_id = $orderObj->createOrder($user_id, $cart_items);
     $orderObj->addOrderItems($order_id, $cart_items);
-    unset($_SESSION['cart']);
+    //unset($_SESSION['cart']);
     
     //$stripe_url = 'https://buy.stripe.com/test_CN214C0B93gM6Vc3cc';
     $stripe_url = 'checkout.php';

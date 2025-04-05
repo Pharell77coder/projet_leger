@@ -53,7 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="submit" value="Mettre à jour">
         </form>
     </div>
-    <a href="order_history.php">Historique des payement</a>
 
     <?php include 'footer.php'; ?><br>
 </body>
