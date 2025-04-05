@@ -91,7 +91,7 @@ if (!empty($paidorders)) {
     
     // Envoi de l'email
     if (mail($to, $subject, $message, $headers)) {
-        echo "<p style='color: green;'>E-mail de confirmation envoyé avec succès.</p>";
+        //echo "<p style='color: green;'>E-mail de confirmation envoyé avec succès.</p>";
 
         // Mettre à jour `email_order` pour les commandes envoyées
         foreach ($paidorders as $order) {
@@ -148,7 +148,7 @@ if (!empty($paidorders)) {
     <?php else: ?>
         <p>Vous n'avez aucune commande payée</p>
     <?php endif; ?>
-    <a href="../index.php">Retourner au catalogue</a>
+    <a class="btn" href="../index.php">Retourner au Catalogue</a>
     <?php include 'footer.php'; ?>
 </body>
 </html>
