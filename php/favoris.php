@@ -31,10 +31,6 @@ $favoris = $favorisManager->getUserFavoris($_SESSION['username']);
         <?php foreach ($favoris as $favori): ?>
             <div class="product-item">
                 <img src="../<?php echo htmlspecialchars($favori['image']); ?>" alt="<?php echo htmlspecialchars($favori['name']); ?>">
-                <!--<video controls>
-                    <source src="<?php //echo htmlspecialchars($favori['video']); ?>" type="video/mp4">
-                    Votre navigateur ne supporte pas les vidéos.
-                </video>-->
                 <h2>
                     <a href="video.php?id=<?php echo htmlspecialchars($favori['id']); ?>">
                         <?php echo htmlspecialchars($favori['name']); ?>

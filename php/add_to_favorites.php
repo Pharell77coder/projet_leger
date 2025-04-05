@@ -1,6 +1,5 @@
 <?php
 session_start();
-//include 'bdd.php';
 require 'classes/FavorisManager.php';
 
 $favorisManager = new FavorisManager();
@@ -18,8 +17,6 @@ if (!isset($_SESSION['username'])) {
     echo json_encode(['success' => false, 'message' => 'Utilisateur non connecté.']);
     exit;
 }
-
-
 
 $user_id = $_SESSION['username'];
 $data = json_decode(file_get_contents('php://input'), true);

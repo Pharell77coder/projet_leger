@@ -35,11 +35,6 @@ if (isset($_GET['query'])) {
             <?php foreach ($results as $product): ?>
             <div class="product-item">
                 <img src="../<?=htmlspecialchars($product['image']); ?>" alt="<?= htmlspecialchars($product['name']); ?>">
-            
-            <!--<video controls>
-                <source src="../<?= htmlspecialchars($product['video']); ?>" type="video/mp4">
-                <?php //$_COOKIE ?>Votre navigateur ne supporte pas les vidéos.
-            </video>-->
 
             <h2>
                 <a href="video.php?id=<?= htmlspecialchars($product['id']); ?>">

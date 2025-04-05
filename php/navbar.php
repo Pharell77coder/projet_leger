@@ -51,9 +51,6 @@ if (isset($_SESSION['username'])) {
         <div class="search-bar">
             <form action="<?php echo $base_url; ?>php/search.php" method="get">
                 <input class="search-bar-input" type="text" name="query" placeholder="Rechercher une vidéo...." required>
-                <!--<button type="submit" class="search-button">
-                    <img src="<?php //echo $base_url; ?>images/loupe.png" alt="Rechercher" class="search-icon">
-                </button>-->
             </form> 
         </div>
 
