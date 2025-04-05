@@ -71,11 +71,11 @@ if (!empty($paidorders)) {
     foreach ($paidorders as $order) {
         $message .= "<tr>";
         $message .= "<td>" . htmlspecialchars($order['product_name']) . "</td>";
-        $message .= "<td>" . number_format($order['total_price'], 2, ',', ' ') . "€</td>";
+        //$message .= "<td>" . number_format($order['total_price'], 2, ',', ' ') . "€</td>";
         $message .= "<td>" . htmlspecialchars($order['order_date']) . "</td>";
         $message .= "</tr>";
 
-        $totalAmount += $order['total_price'];
+        //$totalAmount += $order['total_price'];
     }
 
     $message .= "</table>";
@@ -123,7 +123,7 @@ if (!empty($paidorders)) {
                 <tr>
                     <th>Image</th>
                     <th>Nom du produit</th>
-                    <th>Total</th>
+                    <!--<th>Total</th>-->
                     <th>Statut</th>
                     <th>Date</th>
                 </tr>
@@ -133,7 +133,7 @@ if (!empty($paidorders)) {
                 <tr>
                     <td><img src="../<?php echo htmlspecialchars($order['product_image']); ?>" alt="<?php echo htmlspecialchars($order['product_name']); ?>"/></td>
                     <td><?php echo htmlspecialchars($order['product_name']); ?></td>
-                    <td><?php echo number_format($order['total_price'], 2, ',', ' ') . "€"; ?></td>
+                    <!--<td><?php //echo number_format($order['total_price'], 2, ',', ' ') . "€"; ?></td>-->
                     <td>
                         <?php
                         $statuses = [1 => 'Payé', 2 => 'Annulé', 3 => 'En attente'];
