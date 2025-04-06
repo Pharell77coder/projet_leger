@@ -13,6 +13,12 @@ body {
     background-color: white;
 }
 */
+
+body {
+    justify-content: center;
+    align-items: center;
+}
+
 .signup-container, .login-container {
     background-color: white;
     padding: 20px;

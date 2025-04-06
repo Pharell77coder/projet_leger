@@ -26,7 +26,7 @@ $videos = $userSession->getVideos();
 </head>
 <body>
     <?php include 'navbar.php'; ?>
-    
+        
     <?php foreach ($videos as $video): ?>
         <div class="video-card">
             <h3><?= htmlspecialchars($video['name']) ?></h3>
@@ -72,8 +72,8 @@ $videos = $userSession->getVideos();
             </div>
         </div>
     <?php endforeach; ?>
-    
-    <?php include 'footer.php'; ?>
+    <div class="wrapper"></div>
+<?php include 'footer.php'; ?>
     <script src="../js/accueil.js"></script>
 </body>
 </html>

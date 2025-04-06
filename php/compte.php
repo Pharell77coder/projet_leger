@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <?php include 'navbar.php'; ?><br>
 
-    <div class="profile-container">
+    <div class="profile-container signup-container">
         <h2>Mon profil</h2>
         <?php if ($message): ?>
             <p style='color: green;'><?= htmlspecialchars($message); ?></p>
