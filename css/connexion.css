@@ -1,30 +1,23 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
-/*
+
+/* Pas de display:flex sur body pour éviter de tout casser */
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     background-color: white;
 }
-*/
 
-body {
-    justify-content: center;
-    align-items: center;
-}
-
+/* Centrage horizontal uniquement */
 .signup-container, .login-container {
     background-color: white;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 500px;
+    margin: 40px auto; /* centrage horizontal + marge verticale */
 }
 
 h2 {
@@ -33,7 +26,7 @@ h2 {
     color: black;
 }
 
-label{
+label {
     margin-top: 10px;
     display: block;
     color: #333;
@@ -44,14 +37,13 @@ input[type="email"],
 input[type="password"] {
     width: 100%;
     padding: 10px;
-    margin: 10px 0;
-    margin-top: 5px;
+    margin: 10px 0 0 0;
     border: 1px solid white;
     border-radius: 5px;
     box-sizing: border-box;
 }
 
-input[type="submit"]{
+input[type="submit"] {
     width: 100%;
     padding: 10px;
     background-color: #007BFF;
@@ -60,14 +52,14 @@ input[type="submit"]{
     border-radius: 5px;
     margin-top: 20px;
     cursor: pointer;
-    box-sizing: border-box;
+    font-size: 16px;
 }
 
-input[type="submit"]:hover{
+input[type="submit"]:hover {
     background-color: #007BFF;
 }
 
-#error-msg{
+#error-msg {
     color: red;
     margin-top: 10px;
     text-align: center;
@@ -82,7 +74,7 @@ input[type="submit"]:hover{
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.logout-btn{
+.logout-btn {
     background-color: #a80600;
     color: white;
     border: none;
@@ -91,7 +83,7 @@ input[type="submit"]:hover{
     cursor: pointer;
 }
 
-.logout-btn:hover{
+.logout-btn:hover {
     background-color: #a80600;
 }
 
@@ -105,15 +97,14 @@ input[type="submit"] {
     width: 100%;
     font-size: 16px;
     padding: 10px;
-    /*margin: 10px 0;*/
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-.signup_container{
+.signup_container {
     max-width: 400px;
-    margin: auto;
+    margin: 40px auto;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -121,7 +112,7 @@ input[type="submit"] {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.register-link {
+.register-link, .register-link2 {
     display: inline-block;
     margin-top: 15px;
     color: #007bff;
@@ -129,16 +120,8 @@ input[type="submit"] {
     font-weight: bold;
 }
 
-.register-link:hover {
+.register-link:hover, .register-link2:hover {
     text-decoration: underline;
-}
-
-.register-link2 {
-    display: inline-block;
-    margin-top: 15px;
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
 }
 
 .product-item h2 a {
@@ -146,6 +129,12 @@ input[type="submit"] {
     text-decoration: none;
 }
 
-.product-item h2 a:hover{
+.product-item h2 a:hover {
     color: red;
+}
+.form-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* ou une autre hauteur fixe si tu préfères */
 }

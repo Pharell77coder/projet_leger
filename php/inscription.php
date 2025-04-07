@@ -9,6 +9,7 @@
 </head>
 <body>
     <?php require 'navbar.php'; ?>
+    <section class="form-section">
     <div class="signup-container">
         <h2>Inscription</h2>
         <form action="" method="POST" onsubmit="return validateForm()">
@@ -28,7 +29,7 @@
         </form>
         <p id="error-msg"></p>
     </div>
-
+    </section>
     <script src="js/inscription.js"></script>
 
     <?php 

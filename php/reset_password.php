@@ -70,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 <?php include 'navbar.php'; ?>
+<section class="form-section">
 <div class="login-container">
     <div class="form-container">
         <h2>Réinitialisation du mot de passe</h2>
@@ -83,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </div>
 </div>
+</section>
 <?php include 'footer.php'; ?>
 </body>
 </html>

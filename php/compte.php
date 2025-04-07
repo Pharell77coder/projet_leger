@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <?php include 'navbar.php'; ?><br>
-
+    <section class="form-section">
     <div class="profile-container signup-container">
         <h2>Mon profil</h2>
         <?php if ($message): ?>
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="submit" value="Mettre à jour">
         </form>
     </div>
-
+    </section>
     <?php include 'footer.php'; ?><br>
 </body>
 </html>

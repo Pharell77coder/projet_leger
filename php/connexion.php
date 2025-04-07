@@ -42,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 <?php include 'navbar.php'; ?>
+<section class="form-section">
     <div class="signup-container">
         <h2>Connexion</h2>
 
@@ -61,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p>Pas encore inscrit ? <a href="inscription.php" class="register-link">Inscrivez-vous ici</a></p>        
         <p>Mot de passe oublié ? <a href="reset_password_request.php" class="forgot-password-link">Cliquez ici</a></p>
     </div>
+</section>
     <?php include 'footer.php'; ?>
 </body>
 </html>
